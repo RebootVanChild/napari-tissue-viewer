@@ -8,7 +8,13 @@ Replace code below according to your needs.
 """
 from typing import TYPE_CHECKING
 
-from qtpy.QtWidgets import QHBoxLayout, QTabWidget, QWidget
+from qtpy.QtWidgets import (
+    QHBoxLayout,
+    QLineEdit,
+    QPushButton,
+    QTabWidget,
+    QWidget,
+)
 
 if TYPE_CHECKING:
     pass
@@ -19,10 +25,40 @@ class Widget(QWidget):
         super().__init__()
         self.viewer = napari_viewer
         #
-        self.file_select_tabs = QTabWidget()
+        self.tabs_file_select = QTabWidget()
         self.tab_list = [QWidget(), QWidget(), QWidget(), QWidget()]
+        self.line_file_path_5x_list = [
+            QLineEdit(self),
+            QLineEdit(self),
+            QLineEdit(self),
+            QLineEdit(self),
+        ]
+        self.btn_file_path_5x_list = [
+            QPushButton("browse", self),
+            QPushButton("browse", self),
+            QPushButton("browse", self),
+            QPushButton("browse", self),
+        ]
+        self.line_file_path_20x_list = [
+            QLineEdit(self),
+            QLineEdit(self),
+            QLineEdit(self),
+            QLineEdit(self),
+        ]
+        self.btn_file_path_20x_list = [
+            QPushButton("browse", self),
+            QPushButton("browse", self),
+            QPushButton("browse", self),
+            QPushButton("browse", self),
+        ]
         for i in range(len(self.tab_list)):
-            self.file_select_tabs.addTab(self.tab_list[i], "A" + str(i + 1))
+            self.tabs_file_select.addTab(self.tab_list[i], "A" + str(i + 1))
+            self.tab_list[i].layout = QHBoxLayout()
+            self.tab_list[i].layout.addWidget(self.line_file_path_5x_list[i])
+            self.tab_list[i].layout.addWidget(self.btn_file_path_5x_list[i])
+            self.tab_list[i].layout.addWidget(self.line_file_path_20x_list[i])
+            self.tab_list[i].layout.addWidget(self.btn_file_path_20x_list[i])
+            self.tab_list[i].setLayout(self.tab_list[i].layout)
 
         # self.tab1.layout = QVBoxLayout(self)
         # self.pushButton1 = QPushButton("PyQt5 button")
@@ -30,4 +66,4 @@ class Widget(QWidget):
         # self.tab1.setLayout(self.tab1.layout)
         #
         self.setLayout(QHBoxLayout())
-        self.layout().addWidget(self.file_select_tabs)
+        self.layout().addWidget(self.tabs_file_select)
