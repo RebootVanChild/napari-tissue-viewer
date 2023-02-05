@@ -8,13 +8,7 @@ Replace code below according to your needs.
 """
 from typing import TYPE_CHECKING
 
-from qtpy.QtWidgets import (
-    QHBoxLayout,
-    QPushButton,
-    QTabWidget,
-    QVBoxLayout,
-    QWidget,
-)
+from qtpy.QtWidgets import QHBoxLayout, QTabWidget, QWidget
 
 if TYPE_CHECKING:
     pass
@@ -25,16 +19,15 @@ class Widget(QWidget):
         super().__init__()
         self.viewer = napari_viewer
         #
-        self.tabs = QTabWidget()
-        self.tab1 = QWidget()
-        self.tab2 = QWidget()
-        self.tabs.addTab(self.tab1, "Tab 1")
-        self.tabs.addTab(self.tab2, "Tab 2")
+        self.file_select_tabs = QTabWidget()
+        self.tab_list = [QWidget(), QWidget(), QWidget(), QWidget()]
+        for i in range(len(self.tab_list)):
+            self.file_select_tabs.addTab(self.tab_list[i], "A" + str(i + 1))
 
-        self.tab1.layout = QVBoxLayout(self)
-        self.pushButton1 = QPushButton("PyQt5 button")
-        self.tab1.layout.addWidget(self.pushButton1)
-        self.tab1.setLayout(self.tab1.layout)
+        # self.tab1.layout = QVBoxLayout(self)
+        # self.pushButton1 = QPushButton("PyQt5 button")
+        # self.tab1.layout.addWidget(self.pushButton1)
+        # self.tab1.setLayout(self.tab1.layout)
         #
         self.setLayout(QHBoxLayout())
-        self.layout().addWidget(self.tabs)
+        self.layout().addWidget(self.file_select_tabs)
