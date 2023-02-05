@@ -146,3 +146,6 @@ class Widget(QWidget):
 
     def load_file(self):
         self.viewer.open(self.line_file_path_5x_list[0].text())
+        self.viewer.layers[
+            "0 :: HT530P1-A1-5x-Stitched-Small.czi :: Channel:0:3"
+        ].name = "A1abc"
