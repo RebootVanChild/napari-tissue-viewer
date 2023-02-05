@@ -115,7 +115,7 @@ class Widget(QWidget):
         self.btn_load_file.clicked.connect(self.load_file)
 
         layout = QFormLayout(self)
-        layout.addWidget(self.tabs_file_select)
+        layout.addRow(self.tabs_file_select)
         layout.addRow(self.btn_load_file)
         self.setLayout(layout)
         # self.layout().addWidget(self.tabs_file_select)
