@@ -61,8 +61,8 @@ class Widget(QWidget):
             hbox_load_file_20x = QHBoxLayout()
             hbox_load_file_20x.addWidget(self.line_file_path_20x_list[i])
             hbox_load_file_20x.addWidget(self.btn_file_path_20x_list[i])
-            layout.addRow(hbox_load_file_5x)
-            layout.addRow(hbox_load_file_20x)
+            layout.addRow("5xA" + str(i), hbox_load_file_5x)
+            layout.addRow("5xA" + str(i), hbox_load_file_20x)
             self.tab_list[i].setLayout(layout)
 
         self.setLayout(QHBoxLayout())
