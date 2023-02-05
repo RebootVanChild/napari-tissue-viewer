@@ -6,6 +6,7 @@ see: https://napari.org/stable/plugins/guides.html?#widgets
 
 Replace code below according to your needs.
 """
+from functools import partial
 from typing import TYPE_CHECKING
 
 from qtpy.QtWidgets import (
@@ -59,9 +60,9 @@ class Widget(QWidget):
             hbox_load_file_5x = QHBoxLayout()
             hbox_load_file_5x.addWidget(self.line_file_path_5x_list[i])
             hbox_load_file_5x.addWidget(self.btn_file_path_5x_list[i])
-            # self.btn_file_path_5x_list[i].clicked.connect(
-            #     lambda: self.select_file(i, "5x")
-            # )
+            self.btn_file_path_5x_list[i].clicked.connect(
+                partial(self.select_file, i, "5x")
+            )
             hbox_load_file_20x = QHBoxLayout()
             hbox_load_file_20x.addWidget(self.line_file_path_20x_list[i])
             hbox_load_file_20x.addWidget(self.btn_file_path_20x_list[i])
@@ -72,18 +73,6 @@ class Widget(QWidget):
             layout.addRow("20x", hbox_load_file_20x)
             self.tab_list[i].setLayout(layout)
 
-        self.btn_file_path_5x_list[0].clicked.connect(
-            lambda: self.select_file(0, "5x")
-        )
-        self.btn_file_path_5x_list[1].clicked.connect(
-            lambda: self.select_file(1, "5x")
-        )
-        self.btn_file_path_5x_list[2].clicked.connect(
-            lambda: self.select_file(2, "5x")
-        )
-        self.btn_file_path_5x_list[3].clicked.connect(
-            lambda: self.select_file(3, "5x")
-        )
         self.setLayout(QHBoxLayout())
         self.layout().addWidget(self.tabs_file_select)
 
