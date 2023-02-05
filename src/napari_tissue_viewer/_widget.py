@@ -27,7 +27,6 @@ class Widget(QWidget):
     def __init__(self, napari_viewer):
         super().__init__()
         self.viewer = napari_viewer
-        #
         self.tabs_file_select = QTabWidget()
         self.tab_list = [QWidget(), QWidget(), QWidget(), QWidget()]
         self.line_file_path_5x_list = [
@@ -54,6 +53,30 @@ class Widget(QWidget):
             QPushButton("browse", self),
             QPushButton("browse", self),
         ]
+        self.line_file_path_5x_5x_list = [
+            QLineEdit(self),
+            QLineEdit(self),
+            QLineEdit(self),
+            QLineEdit(self),
+        ]
+        self.btn_file_path_5x_5x_list = [
+            QPushButton("browse", self),
+            QPushButton("browse", self),
+            QPushButton("browse", self),
+            QPushButton("browse", self),
+        ]
+        self.line_file_path_5x_20x_list = [
+            QLineEdit(self),
+            QLineEdit(self),
+            QLineEdit(self),
+            QLineEdit(self),
+        ]
+        self.btn_file_path_5x_20x_list = [
+            QPushButton("browse", self),
+            QPushButton("browse", self),
+            QPushButton("browse", self),
+            QPushButton("browse", self),
+        ]
         for i in range(len(self.tab_list)):
             self.tabs_file_select.addTab(self.tab_list[i], "A" + str(i + 1))
             layout = QFormLayout(self)
@@ -67,10 +90,24 @@ class Widget(QWidget):
             hbox_load_file_20x.addWidget(self.line_file_path_20x_list[i])
             hbox_load_file_20x.addWidget(self.btn_file_path_20x_list[i])
             self.btn_file_path_20x_list[i].clicked.connect(
-                lambda: self.select_file(i, "20x")
+                partial(self.select_file, i, "20x")
+            )
+            hbox_load_file_5x_5x = QHBoxLayout()
+            hbox_load_file_5x_5x.addWidget(self.line_file_path_5x_5x_list[i])
+            hbox_load_file_5x_5x.addWidget(self.btn_file_path_5x_5x_list[i])
+            self.btn_file_path_5x_5x_list[i].clicked.connect(
+                partial(self.select_file, i, "5x-5x")
+            )
+            hbox_load_file_5x_20x = QHBoxLayout()
+            hbox_load_file_5x_20x.addWidget(self.line_file_path_5x_20x_list[i])
+            hbox_load_file_5x_20x.addWidget(self.btn_file_path_5x_20x_list[i])
+            self.btn_file_path_5x_20x_list[i].clicked.connect(
+                partial(self.select_file, i, "5x-20x")
             )
             layout.addRow("5x", hbox_load_file_5x)
             layout.addRow("20x", hbox_load_file_20x)
+            layout.addRow("5x registration", hbox_load_file_5x_5x)
+            layout.addRow("20x registration", hbox_load_file_5x_20x)
             self.tab_list[i].setLayout(layout)
 
         self.setLayout(QHBoxLayout())
@@ -78,15 +115,23 @@ class Widget(QWidget):
 
     # block_index: 0-3, file type: "5x", "20x", "5x-5x", "5x-20x"
     def select_file(self, block_index, file_type):
-        print(block_index)
         if file_type == "5x":
             fileName, _ = QFileDialog.getOpenFileName(
-                self, "Load 5x Image", ""
+                self, "Select 5x Image", "", "CZI Files (*.czi)"
             )
-            print(fileName)
             self.line_file_path_5x_list[block_index].setText(fileName)
         if file_type == "20x":
             fileName, _ = QFileDialog.getOpenFileName(
-                self, "Load 20x Image", ""
+                self, "Select 20x Image", "", "CZI Files (*.czi)"
             )
             self.line_file_path_20x_list[block_index].setText(fileName)
+        if file_type == "5x-5x":
+            fileName, _ = QFileDialog.getOpenFileName(
+                self, "Select 5x Registration", "", "CSV Files (*.csv)"
+            )
+            self.line_file_path_5x_5x_list[block_index].setText(fileName)
+        if file_type == "5x-20x":
+            fileName, _ = QFileDialog.getOpenFileName(
+                self, "Select 20x Registration", "", "CSV Files (*.csv)"
+            )
+            self.line_file_path_5x_20x_list[block_index].setText(fileName)
