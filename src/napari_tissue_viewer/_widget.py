@@ -9,6 +9,7 @@ Replace code below according to your needs.
 from typing import TYPE_CHECKING
 
 from qtpy.QtWidgets import (
+    QFileDialog,
     QFormLayout,
     QHBoxLayout,
     QLineEdit,
@@ -58,12 +59,31 @@ class Widget(QWidget):
             hbox_load_file_5x = QHBoxLayout()
             hbox_load_file_5x.addWidget(self.line_file_path_5x_list[i])
             hbox_load_file_5x.addWidget(self.btn_file_path_5x_list[i])
+            self.btn_file_path_5x_list[i].clicked.connect(
+                lambda: self.select_file(i, "5x")
+            )
             hbox_load_file_20x = QHBoxLayout()
             hbox_load_file_20x.addWidget(self.line_file_path_20x_list[i])
             hbox_load_file_20x.addWidget(self.btn_file_path_20x_list[i])
-            layout.addRow("5xA" + str(i), hbox_load_file_5x)
-            layout.addRow("5xA" + str(i), hbox_load_file_20x)
+            self.btn_file_path_5x_list[i].clicked.connect(
+                lambda: self.select_file(i, "20x")
+            )
+            layout.addRow("5x", hbox_load_file_5x)
+            layout.addRow("20x", hbox_load_file_20x)
             self.tab_list[i].setLayout(layout)
 
         self.setLayout(QHBoxLayout())
         self.layout().addWidget(self.tabs_file_select)
+
+    # block_index: 0-3, file type: "5x", "20x", "5x-5x", "5x-20x"
+    def select_file(self, block_index, file_type):
+        if file_type == "5x":
+            fileName, _ = QFileDialog.getOpenFileName(
+                self, "Load 5x Image", "CZI Files (*.czi)"
+            )
+            self.line_file_path_5x_list[block_index].setText(fileName)
+        if file_type == "20x":
+            fileName, _ = QFileDialog.getOpenFileName(
+                self, "Load 20x Image", "CZI Files (*.czi)"
+            )
+            self.line_file_path_20x_list[block_index].setText(fileName)
