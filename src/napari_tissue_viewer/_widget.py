@@ -110,6 +110,10 @@ class Widget(QWidget):
             layout.addRow("20x registration", hbox_load_file_5x_20x)
             self.tab_list[i].setLayout(layout)
 
+        # file load button
+        self.btn_load_file = QPushButton("load", self)
+        self.btn_load_file.clicked.connect(self.load_file)
+
         self.setLayout(QHBoxLayout())
         self.layout().addWidget(self.tabs_file_select)
 
@@ -135,3 +139,6 @@ class Widget(QWidget):
                 self, "Select 20x Registration", "", "CSV Files (*.csv)"
             )
             self.line_file_path_5x_20x_list[block_index].setText(fileName)
+
+    def load_file(self):
+        self.viewer.open(self.line_file_path_5x_list[0].text())
