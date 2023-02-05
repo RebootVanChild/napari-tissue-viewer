@@ -77,6 +77,7 @@ class Widget(QWidget):
 
     # block_index: 0-3, file type: "5x", "20x", "5x-5x", "5x-20x"
     def select_file(self, block_index, file_type):
+        self.line_file_path_5x_list[0].setText("clicked")
         if file_type == "5x":
             fileName, _ = QFileDialog.getOpenFileName(
                 self, "Load 5x Image", ""
