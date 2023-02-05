@@ -4,7 +4,7 @@ contributions:
   commands:
     - id: napari-tissue-viewer.make_qwidget
       python_name: napari_tissue_viewer._widget:Widget
-      title: Widget
+      title: Make Widget
   widgets:
     - command: napari-tissue-viewer.make_qwidget
-      display_name: Widget
+      display_name: HTAN Tissue Viewer
