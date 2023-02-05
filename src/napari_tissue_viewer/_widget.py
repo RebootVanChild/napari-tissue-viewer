@@ -79,11 +79,11 @@ class Widget(QWidget):
     def select_file(self, block_index, file_type):
         if file_type == "5x":
             fileName, _ = QFileDialog.getOpenFileName(
-                self, "Load 5x Image", "CZI Files (*.czi)"
+                self, "Load 5x Image", ""
             )
             self.line_file_path_5x_list[block_index].setText(fileName)
         if file_type == "20x":
             fileName, _ = QFileDialog.getOpenFileName(
-                self, "Load 20x Image", "CZI Files (*.czi)"
+                self, "Load 20x Image", ""
             )
             self.line_file_path_20x_list[block_index].setText(fileName)
