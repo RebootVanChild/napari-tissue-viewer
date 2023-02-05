@@ -79,7 +79,7 @@ class Widget(QWidget):
         ]
         for i in range(len(self.tab_list)):
             self.tabs_file_select.addTab(self.tab_list[i], "A" + str(i + 1))
-            layout = QFormLayout(self)
+            tab_layout = QFormLayout(self)
             hbox_load_file_5x = QHBoxLayout()
             hbox_load_file_5x.addWidget(self.line_file_path_5x_list[i])
             hbox_load_file_5x.addWidget(self.btn_file_path_5x_list[i])
@@ -104,18 +104,22 @@ class Widget(QWidget):
             self.btn_file_path_5x_20x_list[i].clicked.connect(
                 partial(self.select_file, i, "5x-20x")
             )
-            layout.addRow("5x", hbox_load_file_5x)
-            layout.addRow("20x", hbox_load_file_20x)
-            layout.addRow("5x registration", hbox_load_file_5x_5x)
-            layout.addRow("20x registration", hbox_load_file_5x_20x)
-            self.tab_list[i].setLayout(layout)
+            tab_layout.addRow("5x", hbox_load_file_5x)
+            tab_layout.addRow("20x", hbox_load_file_20x)
+            tab_layout.addRow("5x registration", hbox_load_file_5x_5x)
+            tab_layout.addRow("20x registration", hbox_load_file_5x_20x)
+            self.tab_list[i].setLayout(tab_layout)
 
         # file load button
         self.btn_load_file = QPushButton("load", self)
         self.btn_load_file.clicked.connect(self.load_file)
 
-        self.setLayout(QHBoxLayout())
-        self.layout().addWidget(self.tabs_file_select)
+        layout = QFormLayout(self)
+        layout.addWidget(self.tabs_file_select)
+        layout.addRow(self.btn_load_file)
+        self.setLayout(layout)
+        # self.layout().addWidget(self.tabs_file_select)
+        # self.layout().addWidget(self.btn_load_file)
 
     # block_index: 0-3, file type: "5x", "20x", "5x-5x", "5x-20x"
     def select_file(self, block_index, file_type):
