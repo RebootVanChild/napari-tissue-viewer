@@ -9,6 +9,7 @@ Replace code below according to your needs.
 from typing import TYPE_CHECKING
 
 from qtpy.QtWidgets import (
+    QFormLayout,
     QHBoxLayout,
     QLineEdit,
     QPushButton,
@@ -53,17 +54,16 @@ class Widget(QWidget):
         ]
         for i in range(len(self.tab_list)):
             self.tabs_file_select.addTab(self.tab_list[i], "A" + str(i + 1))
-            self.tab_list[i].layout = QHBoxLayout()
-            self.tab_list[i].layout.addWidget(self.line_file_path_5x_list[i])
-            self.tab_list[i].layout.addWidget(self.btn_file_path_5x_list[i])
-            self.tab_list[i].layout.addWidget(self.line_file_path_20x_list[i])
-            self.tab_list[i].layout.addWidget(self.btn_file_path_20x_list[i])
-            self.tab_list[i].setLayout(self.tab_list[i].layout)
+            layout = QFormLayout(self)
+            hbox_load_file_5x = QHBoxLayout()
+            hbox_load_file_5x.addWidget(self.line_file_path_5x_list[i])
+            hbox_load_file_5x.addWidget(self.btn_file_path_5x_list[i])
+            hbox_load_file_20x = QHBoxLayout()
+            hbox_load_file_20x.addWidget(self.line_file_path_20x_list[i])
+            hbox_load_file_20x.addWidget(self.btn_file_path_20x_list[i])
+            layout.addRow(hbox_load_file_5x)
+            layout.addRow(hbox_load_file_20x)
+            self.tab_list[i].setLayout(layout)
 
-        # self.tab1.layout = QVBoxLayout(self)
-        # self.pushButton1 = QPushButton("PyQt5 button")
-        # self.tab1.layout.addWidget(self.pushButton1)
-        # self.tab1.setLayout(self.tab1.layout)
-        #
         self.setLayout(QHBoxLayout())
         self.layout().addWidget(self.tabs_file_select)
