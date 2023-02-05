@@ -149,3 +149,4 @@ class Widget(QWidget):
         self.viewer.layers[
             "0 :: HT530P1-A1-5x-Stitched-Small.czi :: Channel:0:3"
         ].name = "A1abc"
+        self.viewer.layers["A1abc"].name = "qwerty"
