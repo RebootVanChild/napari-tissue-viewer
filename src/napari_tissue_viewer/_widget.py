@@ -24,6 +24,26 @@ if TYPE_CHECKING:
 
 
 class Widget(QWidget):
+    channel_names = [
+        ["DAPI/CD31", "DAPI/CD31", "DAPI/CD31", "DAPI/CD31"],
+        ["PanCK", "PanCK", "PanCK", "PanCK"],
+        ["CD68", "CD68", "CD3", "CD3"],
+        ["CD20", "CD4", "CD20", "CD4"],
+    ]
+    # [A1_5x, A1_20x], [A2_5x, A2_20x] ...
+    image_loaded = [
+        [False, False],
+        [False, False],
+        [False, False],
+        [False, False],
+    ]
+    # [A1, A2, A3, A4] [5x, 20x] [DAPI/CD31, PanCK, CD68, CD3, CD20, CD4]
+    visibility = {
+        "blocks": [True, True, True, True],
+        "resolution": [True, True],
+        "channels": [True, True, True, True, True, True],
+    }
+
     def __init__(self, napari_viewer):
         super().__init__()
         self.viewer = napari_viewer
@@ -145,8 +165,35 @@ class Widget(QWidget):
             self.line_file_path_5x_20x_list[block_index].setText(fileName)
 
     def load_file(self):
-        self.viewer.open(self.line_file_path_5x_list[0].text())
-        self.viewer.layers[
-            "0 :: HT530P1-A1-5x-Stitched-Small.czi :: Channel:0:3"
-        ].name = "A1abc"
-        self.viewer.layers["A1abc"].name = "qwerty"
+        # example: A1-5x-DAPI/CD31
+        for i in range(len(self.tab_list)):
+            if self.line_file_path_5x_list[i].text() != "":
+                self.viewer.open(self.line_file_path_5x_list[i].text())
+                self.image_loaded[i][0] = True
+                self.viewer.layers[0].name = (
+                    "A" + str(i + 1) + "-5x-" + self.channel_names[3][i]
+                )
+                self.viewer.layers[1].name = (
+                    "A" + str(i + 1) + "-5x-" + self.channel_names[2][i]
+                )
+                self.viewer.layers[2].name = (
+                    "A" + str(i + 1) + "-5x-" + self.channel_names[1][i]
+                )
+                self.viewer.layers[3].name = (
+                    "A" + str(i + 1) + "-5x-" + self.channel_names[0][i]
+                )
+            if self.line_file_path_20x_list[i].text() != "":
+                self.viewer.open(self.line_file_path_20x_list[i].text())
+                self.image_loaded[i][1] = True
+                self.viewer.layers[0].name = (
+                    "A" + str(i + 1) + "-20x-" + self.channel_names[3][i]
+                )
+                self.viewer.layers[1].name = (
+                    "A" + str(i + 1) + "-20x-" + self.channel_names[2][i]
+                )
+                self.viewer.layers[2].name = (
+                    "A" + str(i + 1) + "-20x-" + self.channel_names[1][i]
+                )
+                self.viewer.layers[3].name = (
+                    "A" + str(i + 1) + "-20x-" + self.channel_names[0][i]
+                )
