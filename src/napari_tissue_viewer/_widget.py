@@ -48,7 +48,7 @@ class Widget(QWidget):
     def __init__(self, napari_viewer):
         super().__init__()
         self.viewer = napari_viewer
-        self.tabs_file_select = QTabWidget()
+        tabs_file_select = QTabWidget()
         self.tab_list = [QWidget(), QWidget(), QWidget(), QWidget()]
         self.line_file_path_5x_list = [
             QLineEdit(self),
@@ -99,7 +99,7 @@ class Widget(QWidget):
             QPushButton("browse", self),
         ]
         for i in range(len(self.tab_list)):
-            self.tabs_file_select.addTab(self.tab_list[i], "A" + str(i + 1))
+            tabs_file_select.addTab(self.tab_list[i], "A" + str(i + 1))
             tab_layout = QFormLayout(self)
             hbox_load_file_5x = QHBoxLayout()
             hbox_load_file_5x.addWidget(self.line_file_path_5x_list[i])
@@ -134,7 +134,7 @@ class Widget(QWidget):
         # file load button
         self.btn_load_file = QPushButton("load", self)
         self.btn_load_file.clicked.connect(self.load_file)
-
+        # block check boxes
         self.block_check_boxes = [
             QCheckBox("A1"),
             QCheckBox("A2"),
@@ -144,11 +144,33 @@ class Widget(QWidget):
         hbox_block_visibility = QHBoxLayout()
         for i in range(len(self.block_check_boxes)):
             hbox_block_visibility.addWidget(self.block_check_boxes[i])
+        # res check boxes
+        self.res_check_boxes = [
+            QCheckBox("5x"),
+            QCheckBox("20x"),
+        ]
+        hbox_res_visibility = QHBoxLayout()
+        for i in range(len(self.res_check_boxes)):
+            hbox_res_visibility.addWidget(self.res_check_boxes[i])
+        # channel check boxes
+        self.channel_check_boxes = [
+            QCheckBox("DAPI/CD31"),
+            QCheckBox("PanCK"),
+            QCheckBox("CD68"),
+            QCheckBox("CD3"),
+            QCheckBox("CD20"),
+            QCheckBox("CD4"),
+        ]
+        hbox_channel_visibility = QHBoxLayout()
+        for i in range(len(self.channel_check_boxes)):
+            hbox_channel_visibility.addWidget(self.channel_check_boxes[i])
 
         layout = QFormLayout(self)
-        layout.addRow(self.tabs_file_select)
+        layout.addRow(tabs_file_select)
         layout.addRow(self.btn_load_file)
         layout.addRow(hbox_block_visibility)
+        layout.addRow(hbox_res_visibility)
+        layout.addRow(hbox_channel_visibility)
         self.setLayout(layout)
         # self.layout().addWidget(self.tabs_file_select)
         # self.layout().addWidget(self.btn_load_file)
