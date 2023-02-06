@@ -170,6 +170,7 @@ class Widget(QWidget):
             if self.line_file_path_5x_list[i].text() != "":
                 self.viewer.open(self.line_file_path_5x_list[i].text())
                 self.image_loaded[i][0] = True
+                self.viewer.layers[-4].blending = "additive"
                 self.viewer.layers[-4].name = (
                     "A" + str(i + 1) + "-5x-" + self.channel_names[0][i]
                 )
@@ -185,6 +186,7 @@ class Widget(QWidget):
             if self.line_file_path_20x_list[i].text() != "":
                 self.viewer.open(self.line_file_path_20x_list[i].text())
                 self.image_loaded[i][1] = True
+                self.viewer.layers[-4].blending = "additive"
                 self.viewer.layers[-4].name = (
                     "A" + str(i + 1) + "-20x-" + self.channel_names[0][i]
                 )
