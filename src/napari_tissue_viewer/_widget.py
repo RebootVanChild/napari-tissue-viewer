@@ -144,6 +144,7 @@ class Widget(QWidget):
         ]
         hbox_block_visibility = QHBoxLayout()
         for i in range(len(self.block_check_boxes)):
+            self.block_check_boxes[i].setChecked(True)
             hbox_block_visibility.addWidget(self.block_check_boxes[i])
         # res check boxes
         self.res_check_boxes = [
@@ -152,6 +153,7 @@ class Widget(QWidget):
         ]
         hbox_res_visibility = QHBoxLayout()
         for i in range(len(self.res_check_boxes)):
+            self.res_check_boxes[i].setChecked(True)
             hbox_res_visibility.addWidget(self.res_check_boxes[i])
         # channel check boxes
         self.channel_check_boxes = [
@@ -164,6 +166,7 @@ class Widget(QWidget):
         ]
         hbox_channel_visibility = QHBoxLayout()
         for i in range(len(self.channel_check_boxes)):
+            self.channel_check_boxes[i].setChecked(True)
             hbox_channel_visibility.addWidget(self.channel_check_boxes[i])
 
         layout = QFormLayout()
@@ -202,6 +205,7 @@ class Widget(QWidget):
 
     def load_file(self):
         # example: A1-5x-DAPI/CD31
+        self.viewer.dims.ndisplay = 3
         for i in range(len(self.tab_list)):
             if self.line_file_path_5x_list[i].text() != "":
                 self.viewer.open(self.line_file_path_5x_list[i].text())
