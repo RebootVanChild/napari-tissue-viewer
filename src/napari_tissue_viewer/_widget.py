@@ -253,7 +253,7 @@ class Widget(QWidget):
             converters=lambda x: float(eval(x)),
         )
         # get dimensions and pixel size to find center (in microns)
-        image_center = np.array(
+        image_center = (
             np.array(layer.extent[0][1]) * np.array(layer.extent[2]) / 2,
         )
         rot_mat_x = np.array(
@@ -303,8 +303,8 @@ class Widget(QWidget):
         )
         rot_mat = rot_mat_x.dot(rot_mat_y).dot(rot_mat_z)
         translate_arr = (
-            -rot_mat.dot(image_center.T)
-            + image_center.T
+            -rot_mat.dot(np.array(image_center).T)
+            + np.array(image_center).T
             + np.array(
                 [
                     [transform_parameters[0][2]],
