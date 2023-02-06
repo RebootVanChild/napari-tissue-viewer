@@ -210,6 +210,11 @@ class Widget(QWidget):
             if self.line_file_path_5x_list[i].text() != "":
                 self.viewer.open(self.line_file_path_5x_list[i].text())
                 self.image_loaded[i][0] = True
+                # update checkboxes
+                self.block_check_boxes[i].setEnabled(True)
+                self.res_check_boxes[0].setEnabled(True)
+                for j in range(len(self.channel_check_boxes)):
+                    self.channel_check_boxes[j].setEnabled(True)
                 # apply affine
                 if self.line_file_path_5x_5x_list[i].text() != "":
                     affine_5x_5x = self.calculate_affine_from_file(
@@ -236,6 +241,11 @@ class Widget(QWidget):
             if self.line_file_path_20x_list[i].text() != "":
                 self.viewer.open(self.line_file_path_20x_list[i].text())
                 self.image_loaded[i][1] = True
+                # update checkboxes
+                self.block_check_boxes[i].setEnabled(True)
+                self.res_check_boxes[1].setEnabled(True)
+                for j in range(len(self.channel_check_boxes)):
+                    self.channel_check_boxes[j].setEnabled(True)
                 self.viewer.layers[-4].blending = "additive"
                 self.viewer.layers[-4].name = (
                     "A" + str(i + 1) + "-20x-" + self.channel_names[0][i]
