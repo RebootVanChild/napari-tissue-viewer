@@ -9,6 +9,7 @@ Replace code below according to your needs.
 from functools import partial
 from typing import TYPE_CHECKING
 
+import numpy as np
 from qtpy.QtWidgets import (
     QCheckBox,
     QFileDialog,
@@ -205,6 +206,16 @@ class Widget(QWidget):
             if self.line_file_path_5x_list[i].text() != "":
                 self.viewer.open(self.line_file_path_5x_list[i].text())
                 self.image_loaded[i][0] = True
+                # apply affine
+                if self.btn_file_path_5x_5x_list[i].text() != "":
+                    affine_5x_5x = self.calculate_affine_from_file(
+                        self.btn_file_path_5x_5x_list[i].text(),
+                        self.viewer.layers[-1],
+                    )
+                    self.viewer.layers[-4].affine = affine_5x_5x
+                    self.viewer.layers[-3].affine = affine_5x_5x
+                    self.viewer.layers[-2].affine = affine_5x_5x
+                    self.viewer.layers[-1].affine = affine_5x_5x
                 self.viewer.layers[-4].blending = "additive"
                 self.viewer.layers[-4].name = (
                     "A" + str(i + 1) + "-5x-" + self.channel_names[0][i]
@@ -234,3 +245,77 @@ class Widget(QWidget):
                 self.viewer.layers[-1].name = (
                     "A" + str(i + 1) + "-20x-" + self.channel_names[3][i]
                 )
+
+    def calculate_affine_from_file(self, file_path, layer):
+        transform_parameters = np.loadtxt(
+            file_path,
+            delimiter=",",
+            converters=lambda x: float(eval(x)),
+        )
+        # get dimensions and pixel size to find center (in microns)
+        image_center = (
+            np.array(layer.extent[0][1]) * np.array(layer.extent[2]) / 2,
+        )
+        rot_mat_x = np.array(
+            [
+                [
+                    np.cos(np.deg2rad(transform_parameters[1][0])),
+                    np.sin(np.deg2rad(transform_parameters[1][0])),
+                    0,
+                ],
+                [
+                    -np.sin(np.deg2rad(transform_parameters[1][0])),
+                    np.cos(np.deg2rad(transform_parameters[1][0])),
+                    0,
+                ],
+                [0, 0, 1],
+            ]
+        )
+        rot_mat_y = np.array(
+            [
+                [
+                    np.cos(np.deg2rad(transform_parameters[1][1])),
+                    0,
+                    np.sin(np.deg2rad(transform_parameters[1][1])),
+                ],
+                [0, 1, 0],
+                [
+                    -np.sin(np.deg2rad(transform_parameters[1][1])),
+                    0,
+                    np.cos(np.deg2rad(transform_parameters[1][1])),
+                ],
+            ]
+        )
+        rot_mat_z = np.array(
+            [
+                [1, 0, 0],
+                [
+                    0,
+                    np.cos(np.deg2rad(transform_parameters[1][2])),
+                    np.sin(np.deg2rad(transform_parameters[1][2])),
+                ],
+                [
+                    0,
+                    -np.sin(np.deg2rad(transform_parameters[1][2])),
+                    np.cos(np.deg2rad(transform_parameters[1][2])),
+                ],
+            ]
+        )
+        rot_mat = rot_mat_x.dot(rot_mat_y).dot(rot_mat_z)
+        translate_arr = (
+            -rot_mat.dot(np.array(image_center).T)
+            + np.array(image_center).T
+            + np.array(
+                [
+                    transform_parameters[0][2],
+                    transform_parameters[0][1],
+                    transform_parameters[0][0],
+                ]
+            )
+        )
+        affine_matrix = np.append(
+            np.hstack((rot_mat, translate_arr[..., None])),
+            [[0, 0, 0, 1]],
+            axis=0,
+        )
+        return affine_matrix
