@@ -130,7 +130,6 @@ class Widget(QWidget):
             tab_layout.addRow("5x registration", hbox_load_file_5x_5x)
             tab_layout.addRow("20x registration", hbox_load_file_5x_20x)
             self.tab_list[i].setLayout(tab_layout)
-            self.tab_list[i].setMaximumHeight(15)
 
         # file load button
         self.btn_load_file = QPushButton("load", self)
@@ -167,6 +166,7 @@ class Widget(QWidget):
             hbox_channel_visibility.addWidget(self.channel_check_boxes[i])
 
         layout = QFormLayout(self)
+        tabs_file_select.setMaximumHeight(150)
         layout.addRow(tabs_file_select)
         layout.addRow(self.btn_load_file)
         layout.addRow(hbox_block_visibility)
