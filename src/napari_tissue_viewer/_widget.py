@@ -130,7 +130,7 @@ class Widget(QWidget):
             tab_layout.addRow("5x registration", hbox_load_file_5x_5x)
             tab_layout.addRow("20x registration", hbox_load_file_5x_20x)
             self.tab_list[i].setLayout(tab_layout)
-            self.tab_list[i].resize(self.tab_list[i].sizeHint())
+            self.tab_list[i].setMaximumHeight(15)
 
         # file load button
         self.btn_load_file = QPushButton("load", self)
