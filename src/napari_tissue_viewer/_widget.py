@@ -303,8 +303,8 @@ class Widget(QWidget):
         )
         rot_mat = rot_mat_x.dot(rot_mat_y).dot(rot_mat_z)
         translate_arr = (
-            -rot_mat.dot(np.array(image_center).T)
-            + np.array(image_center).T
+            -rot_mat.dot(np.transpose(image_center))
+            + np.transpose(image_center)
             + np.array(
                 [
                     transform_parameters[0][2],
