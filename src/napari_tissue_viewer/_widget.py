@@ -313,6 +313,7 @@ class Widget(QWidget):
                 ]
             )
         )
+        print(translate_arr)
         affine_matrix = np.append(
             np.hstack((rot_mat, translate_arr[..., None])),
             [[0, 0, 0, 1]],
