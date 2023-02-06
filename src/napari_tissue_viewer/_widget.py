@@ -10,6 +10,7 @@ from functools import partial
 from typing import TYPE_CHECKING
 
 from qtpy.QtWidgets import (
+    QCheckBox,
     QFileDialog,
     QFormLayout,
     QHBoxLayout,
@@ -134,9 +135,20 @@ class Widget(QWidget):
         self.btn_load_file = QPushButton("load", self)
         self.btn_load_file.clicked.connect(self.load_file)
 
+        self.block_check_boxes = [
+            QCheckBox("A1"),
+            QCheckBox("A2"),
+            QCheckBox("A3"),
+            QCheckBox("A4"),
+        ]
+        hbox_block_visibility = QHBoxLayout()
+        for i in range(len(self.block_check_boxes)):
+            hbox_block_visibility.addWidget(self.block_check_boxes[i])
+
         layout = QFormLayout(self)
-        layout.addWidget(self.tabs_file_select)
+        layout.addRow(self.tabs_file_select)
         layout.addRow(self.btn_load_file)
+        layout.addRow(hbox_block_visibility)
         self.setLayout(layout)
         # self.layout().addWidget(self.tabs_file_select)
         # self.layout().addWidget(self.btn_load_file)
