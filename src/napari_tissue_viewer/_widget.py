@@ -207,9 +207,9 @@ class Widget(QWidget):
                 self.viewer.open(self.line_file_path_5x_list[i].text())
                 self.image_loaded[i][0] = True
                 # apply affine
-                if self.btn_file_path_5x_5x_list[i].text() != "":
+                if self.line_file_path_5x_5x_list[i].text() != "":
                     affine_5x_5x = self.calculate_affine_from_file(
-                        self.btn_file_path_5x_5x_list[i].text(),
+                        self.line_file_path_5x_5x_list[i].text(),
                         self.viewer.layers[-1],
                     )
                     self.viewer.layers[-4].affine = affine_5x_5x
