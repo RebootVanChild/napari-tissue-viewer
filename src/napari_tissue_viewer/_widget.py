@@ -144,7 +144,7 @@ class Widget(QWidget):
         ]
         hbox_block_visibility = QHBoxLayout()
         for i in range(len(self.block_check_boxes)):
-            self.block_check_boxes[i].setChecked(True)
+            self.block_check_boxes[i].setEnabled(False)
             hbox_block_visibility.addWidget(self.block_check_boxes[i])
         # res check boxes
         self.res_check_boxes = [
@@ -153,7 +153,7 @@ class Widget(QWidget):
         ]
         hbox_res_visibility = QHBoxLayout()
         for i in range(len(self.res_check_boxes)):
-            self.res_check_boxes[i].setChecked(True)
+            self.res_check_boxes[i].setEnabled(False)
             hbox_res_visibility.addWidget(self.res_check_boxes[i])
         # channel check boxes
         self.channel_check_boxes = [
@@ -166,7 +166,7 @@ class Widget(QWidget):
         ]
         hbox_channel_visibility = QHBoxLayout()
         for i in range(len(self.channel_check_boxes)):
-            self.channel_check_boxes[i].setChecked(True)
+            self.channel_check_boxes[i].setEnabled(False)
             hbox_channel_visibility.addWidget(self.channel_check_boxes[i])
 
         layout = QFormLayout()
