@@ -312,7 +312,7 @@ class Widget(QWidget):
                     transform_parameters[0][1],
                     transform_parameters[0][0],
                 ]
-            )
+            ).reshape(3, 1)
         )
         translate_arr = (
             -rot_mat.dot(np.array(image_center).T)
@@ -323,7 +323,7 @@ class Widget(QWidget):
                     transform_parameters[0][1],
                     transform_parameters[0][0],
                 ]
-            )
+            ).reshape(3, 1)
         )
         print(translate_arr)
         affine_matrix = np.append(
