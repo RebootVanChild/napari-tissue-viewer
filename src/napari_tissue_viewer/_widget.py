@@ -166,7 +166,6 @@ class Widget(QWidget):
             hbox_channel_visibility.addWidget(self.channel_check_boxes[i])
 
         layout = QFormLayout()
-        tabs_file_select.resize(tabs_file_select.minimumSizeHint())
         layout.addRow(tabs_file_select)
         layout.addRow(self.btn_load_file)
         layout.addRow(hbox_block_visibility)
