@@ -207,6 +207,9 @@ class Widget(QWidget):
         # example: A1-5x-DAPI/CD31
         self.viewer.dims.ndisplay = 3
         for i in range(len(self.tab_list)):
+            affine_5x_5x = np.array(
+                [[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 1, 0], [0, 0, 0, 1]]
+            )
             if self.line_file_path_5x_list[i].text() != "":
                 self.viewer.open(self.line_file_path_5x_list[i].text())
                 self.image_loaded[i][0] = True
@@ -252,6 +255,21 @@ class Widget(QWidget):
                 for j in range(len(self.channel_check_boxes)):
                     self.channel_check_boxes[j].setEnabled(True)
                     self.channel_check_boxes[j].setChecked(True)
+                # apply affine
+                if self.line_file_path_5x_20x_list[i].text() != "":
+                    affine_5x_20x = self.affine_xyz_to_zyx(
+                        np.loadtxt(
+                            open(
+                                self.line_file_path_5x_20x_list[i].text(), "rb"
+                            ),
+                            delimiter=",",
+                        )
+                    )
+                    combined_matrix = np.dot(affine_5x_5x, affine_5x_20x)
+                    self.viewer.layers[-4].affine = combined_matrix
+                    self.viewer.layers[-3].affine = combined_matrix
+                    self.viewer.layers[-2].affine = combined_matrix
+                    self.viewer.layers[-1].affine = combined_matrix
                 self.viewer.layers[-4].blending = "additive"
                 self.viewer.layers[-4].name = (
                     "A" + str(i + 1) + "-20x-" + self.channel_names[0][i]
@@ -333,10 +351,15 @@ class Widget(QWidget):
                 ]
             )
         )
-        print(translate_arr)
         affine_matrix = np.append(
             np.hstack((rot_mat, translate_arr)),
             [[0, 0, 0, 1]],
             axis=0,
         )
         return affine_matrix
+
+    def affine_xyz_to_zyx(self, mxyz):
+        mzyx = mxyz
+        mzyx[:3, :3] = np.rot90(mxyz[:3, :3], 2)
+        mzyx[:3, 3] = np.flip(mxyz[:3, 3])
+        return mzyx
