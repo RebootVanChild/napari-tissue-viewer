@@ -165,7 +165,7 @@ class Widget(QWidget):
         for i in range(len(self.channel_check_boxes)):
             hbox_channel_visibility.addWidget(self.channel_check_boxes[i])
 
-        layout = QFormLayout(self)
+        layout = QFormLayout()
         tabs_file_select.setMaximumHeight(150)
         layout.addRow(tabs_file_select)
         layout.addRow(self.btn_load_file)
