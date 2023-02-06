@@ -301,33 +301,21 @@ class Widget(QWidget):
                 ],
             ]
         )
-        print(image_center)
         rot_mat = rot_mat_x.dot(rot_mat_y).dot(rot_mat_z)
-        print(-rot_mat.dot(np.array(image_center).T))
-        print(+np.array(image_center).T)
-        print(
-            np.array(
-                [
-                    transform_parameters[0][2],
-                    transform_parameters[0][1],
-                    transform_parameters[0][0],
-                ]
-            ).reshape(3, 1)
-        )
         translate_arr = (
             -rot_mat.dot(np.array(image_center).T)
             + np.array(image_center).T
             + np.array(
                 [
-                    transform_parameters[0][2],
-                    transform_parameters[0][1],
-                    transform_parameters[0][0],
+                    [transform_parameters[0][2]],
+                    [transform_parameters[0][1]],
+                    [transform_parameters[0][0]],
                 ]
-            ).reshape(3, 1)
+            )
         )
         print(translate_arr)
         affine_matrix = np.append(
-            np.hstack((rot_mat, translate_arr[..., None])),
+            np.hstack((rot_mat, translate_arr)),
             [[0, 0, 0, 1]],
             axis=0,
         )
