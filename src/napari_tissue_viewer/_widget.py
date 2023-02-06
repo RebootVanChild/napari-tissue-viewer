@@ -171,7 +171,7 @@ class Widget(QWidget):
                 self.viewer.open(self.line_file_path_5x_list[i].text())
                 self.image_loaded[i][0] = True
                 self.viewer.layers[0].name = (
-                    "A" + str(i + 1) + "-5x-" + self.channel_names[3][i]
+                    "A" + str(i + 1) + "-5xxxx-" + self.channel_names[3][i]
                 )
                 self.viewer.layers[1].name = (
                     "A" + str(i + 1) + "-5x-" + self.channel_names[2][i]
