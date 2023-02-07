@@ -26,11 +26,12 @@ if TYPE_CHECKING:
 
 
 class Widget(QWidget):
-    channel_names = [
-        ["DAPI/CD31", "DAPI/CD31", "DAPI/CD31", "DAPI/CD31"],
-        ["PanCK", "PanCK", "PanCK", "PanCK"],
-        ["CD68", "CD68", "CD3", "CD3"],
-        ["CD20", "CD4", "CD20", "CD4"],
+    channel_names = ["DAPI/CD31", "PanCK", "CD68", "CD3", "CD20", "CD4"]
+    channel_list = [
+        [0, 0, 0, 0],
+        [1, 1, 1, 1],
+        [2, 2, 3, 3],
+        [4, 5, 4, 5],
     ]
     # [A1_5x, A1_20x], [A2_5x, A2_20x] ...
     image_loaded = [
@@ -39,12 +40,6 @@ class Widget(QWidget):
         [False, False],
         [False, False],
     ]
-    # [A1, A2, A3, A4] [5x, 20x] [DAPI/CD31, PanCK, CD68, CD3, CD20, CD4]
-    visibility = {
-        "blocks": [True, True, True, True],
-        "resolution": [True, True],
-        "channels": [True, True, True, True, True, True],
-    }
 
     def __init__(self, napari_viewer):
         super().__init__()
@@ -157,12 +152,12 @@ class Widget(QWidget):
             hbox_res_visibility.addWidget(self.res_check_boxes[i])
         # channel check boxes
         self.channel_check_boxes = [
-            QCheckBox("DAPI/CD31"),
-            QCheckBox("PanCK"),
-            QCheckBox("CD68"),
-            QCheckBox("CD3"),
-            QCheckBox("CD20"),
-            QCheckBox("CD4"),
+            QCheckBox(self.channel_names[0]),
+            QCheckBox(self.channel_names[1]),
+            QCheckBox(self.channel_names[2]),
+            QCheckBox(self.channel_names[3]),
+            QCheckBox(self.channel_names[4]),
+            QCheckBox(self.channel_names[5]),
         ]
         hbox_channel_visibility = QHBoxLayout()
         for i in range(len(self.channel_check_boxes)):
@@ -213,7 +208,7 @@ class Widget(QWidget):
             if self.line_file_path_5x_list[i].text() != "":
                 self.viewer.open(self.line_file_path_5x_list[i].text())
                 self.image_loaded[i][0] = True
-                # update checkboxes
+                # update checkboxes and visibilities
                 self.block_check_boxes[i].setEnabled(True)
                 self.block_check_boxes[i].setChecked(True)
                 self.res_check_boxes[0].setEnabled(True)
@@ -233,16 +228,28 @@ class Widget(QWidget):
                     self.viewer.layers[-1].affine = affine_5x_5x
                 self.viewer.layers[-4].blending = "additive"
                 self.viewer.layers[-4].name = (
-                    "A" + str(i + 1) + "-5x-" + self.channel_names[0][i]
+                    "A"
+                    + str(i + 1)
+                    + "-5x-"
+                    + self.channel_names[self.channel_list[0][i]]
                 )
                 self.viewer.layers[-3].name = (
-                    "A" + str(i + 1) + "-5x-" + self.channel_names[1][i]
+                    "A"
+                    + str(i + 1)
+                    + "-5x-"
+                    + self.channel_names[self.channel_list[1][i]]
                 )
                 self.viewer.layers[-2].name = (
-                    "A" + str(i + 1) + "-5x-" + self.channel_names[2][i]
+                    "A"
+                    + str(i + 1)
+                    + "-5x-"
+                    + self.channel_names[self.channel_list[2][i]]
                 )
                 self.viewer.layers[-1].name = (
-                    "A" + str(i + 1) + "-5x-" + self.channel_names[3][i]
+                    "A"
+                    + str(i + 1)
+                    + "-5x-"
+                    + self.channel_names[self.channel_list[3][i]]
                 )
             if self.line_file_path_20x_list[i].text() != "":
                 self.viewer.open(self.line_file_path_20x_list[i].text())
@@ -272,16 +279,28 @@ class Widget(QWidget):
                     self.viewer.layers[-1].affine = combined_matrix
                 self.viewer.layers[-4].blending = "additive"
                 self.viewer.layers[-4].name = (
-                    "A" + str(i + 1) + "-20x-" + self.channel_names[0][i]
+                    "A"
+                    + str(i + 1)
+                    + "-20x-"
+                    + self.channel_names[self.channel_list[0][i]]
                 )
                 self.viewer.layers[-3].name = (
-                    "A" + str(i + 1) + "-20x-" + self.channel_names[1][i]
+                    "A"
+                    + str(i + 1)
+                    + "-20x-"
+                    + self.channel_names[self.channel_list[1][i]]
                 )
                 self.viewer.layers[-2].name = (
-                    "A" + str(i + 1) + "-20x-" + self.channel_names[2][i]
+                    "A"
+                    + str(i + 1)
+                    + "-20x-"
+                    + self.channel_names[self.channel_list[2][i]]
                 )
                 self.viewer.layers[-1].name = (
-                    "A" + str(i + 1) + "-20x-" + self.channel_names[3][i]
+                    "A"
+                    + str(i + 1)
+                    + "-20x-"
+                    + self.channel_names[self.channel_list[3][i]]
                 )
 
     def calculate_affine_from_file(self, file_path, layer):
@@ -363,3 +382,41 @@ class Widget(QWidget):
         mzyx[:3, :3] = np.rot90(mxyz[:3, :3], 2)
         mzyx[:3, 3] = np.flip(mxyz[:3, 3])
         return mzyx
+
+    def set_visibility(self):
+        visibility_mat = [
+            [[False, False, False, False], [False, False, False, False]],
+            [[False, False, False, False], [False, False, False, False]],
+            [[False, False, False, False], [False, False, False, False]],
+            [[False, False, False, False], [False, False, False, False]],
+        ]
+        # each block
+        for i in range(4):
+            # res
+            for j in range(2):
+                if self.image_loaded[i][j]:
+                    if self.block_check_boxes[i].isChecked():
+                        if self.res_check_boxes[j].isChecked():
+                            # channel
+                            for k in range(4):
+                                if self.channel_check_boxes[
+                                    self.channel_list[k][i]
+                                ].isChecked():
+                                    visibility_mat[i][j][k] = True
+                    res = ""
+                    if j == 0:
+                        res = "5x"
+                    if j == 1:
+                        res = "20x"
+                    for k in range(4):
+                        layer_name = (
+                            "A"
+                            + str(i + 1)
+                            + "-"
+                            + res
+                            + "-"
+                            + self.channel_names[self.channel_list[0][i]]
+                        )
+                        self.viewer.layers[
+                            layer_name
+                        ].visible = visibility_mat[i][j][k]
