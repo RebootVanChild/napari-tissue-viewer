@@ -428,6 +428,8 @@ class Widget(QWidget):
                                     self.channel_list[k][i]
                                 ].isChecked():
                                     visibility_mat[i][j][k] = True
+                                else:
+                                    visibility_mat[i][j][k] = False
                     res = ""
                     if j == 0:
                         res = "5x"
