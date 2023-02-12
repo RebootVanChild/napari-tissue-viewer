@@ -472,17 +472,23 @@ class Widget(QWidget):
                         )
                         data = self.viewer.layers[layer_name].data
                         max_on_bound = max(
-                            max(data[0][:][:]),
-                            max(data[-1][:][:]),
-                            max(data[:][0][:]),
-                            max(data[:][-1][:]),
-                            max(data[:][:][0]),
-                            max(data[:][:][-1]),
+                            max(data[0][0][:]),
+                            max(data[0][-1][:]),
+                            max(data[-1][0][:]),
+                            max(data[-1][-1][:]),
+                            max(data[:][0][0]),
+                            max(data[:][0][-1]),
+                            max(data[:][-1][0]),
+                            max(data[:][-1][-1]),
+                            max(data[0][:][0]),
+                            max(data[-1][:][0]),
+                            max(data[0][:][-1]),
+                            max(data[-1][:][-1]),
                         )
                         original_contrast = self.viewer.layers[
                             layer_name
-                        ].contrast
-                        self.viewer.layers[layer_name].contrast = (
+                        ].contrast_limits
+                        self.viewer.layers[layer_name].contrast_limits = (
                             max_on_bound,
                             original_contrast[1],
                         )
