@@ -453,42 +453,34 @@ class Widget(QWidget):
     def set_auto_contrast(self):
         # each block
         for i in range(4):
-            # res
-            for j in range(2):
-                if self.image_loaded[i][j]:
-                    res = ""
-                    if j == 0:
-                        res = "5x"
-                    if j == 1:
-                        res = "20x"
-                    for k in range(4):
-                        layer_name = (
-                            "A"
-                            + str(i + 1)
-                            + "-"
-                            + res
-                            + "-"
-                            + self.channel_names[self.channel_list[k][i]]
-                        )
-                        data = self.viewer.layers[layer_name].data
-                        max_on_bound = max(
-                            max(data[0][0][:]),
-                            max(data[0][-1][:]),
-                            max(data[-1][0][:]),
-                            max(data[-1][-1][:]),
-                            max(data[:][0][0]),
-                            max(data[:][0][-1]),
-                            max(data[:][-1][0]),
-                            max(data[:][-1][-1]),
-                            max(data[0][:][0]),
-                            max(data[-1][:][0]),
-                            max(data[0][:][-1]),
-                            max(data[-1][:][-1]),
-                        )
-                        original_contrast = self.viewer.layers[
-                            layer_name
-                        ].contrast_limits
-                        self.viewer.layers[layer_name].contrast_limits = (
-                            max_on_bound,
-                            original_contrast[1],
-                        )
+            # only perform auto contrast on 5x
+            if self.image_loaded[i][0]:
+                for k in range(4):
+                    layer_name = (
+                        "A"
+                        + str(i + 1)
+                        + "-5x-"
+                        + self.channel_names[self.channel_list[k][i]]
+                    )
+                    data = self.viewer.layers[layer_name].data
+                    max_on_bound = max(
+                        max(data[0][0][:]),
+                        max(data[0][-1][:]),
+                        max(data[-1][0][:]),
+                        max(data[-1][-1][:]),
+                        max(data[:][0][0]),
+                        max(data[:][0][-1]),
+                        max(data[:][-1][0]),
+                        max(data[:][-1][-1]),
+                        max(data[0][:][0]),
+                        max(data[-1][:][0]),
+                        max(data[0][:][-1]),
+                        max(data[-1][:][-1]),
+                    )
+                    original_contrast = self.viewer.layers[
+                        layer_name
+                    ].contrast_limits
+                    self.viewer.layers[layer_name].contrast_limits = (
+                        max_on_bound,
+                        original_contrast[1],
+                    )
