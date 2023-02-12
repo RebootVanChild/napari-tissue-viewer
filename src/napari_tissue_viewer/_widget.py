@@ -130,6 +130,9 @@ class Widget(QWidget):
         # file load button
         self.btn_load_file = QPushButton("load", self)
         self.btn_load_file.clicked.connect(self.load_file)
+        # auto contrast button
+        self.btn_auto_contrast = QPushButton("auto contrast", self)
+        self.btn_auto_contrast.clicked.connect(self.set_auto_contrast)
         # block check boxes
         self.block_check_boxes = [
             QCheckBox("A1"),
@@ -172,6 +175,7 @@ class Widget(QWidget):
         layout = QFormLayout()
         layout.addRow(tabs_file_select)
         layout.addRow(self.btn_load_file)
+        layout.addRow(self.btn_auto_contrast)
         layout.addRow(hbox_block_visibility)
         layout.addRow(hbox_res_visibility)
         layout.addRow(hbox_channel_visibility)
@@ -445,3 +449,40 @@ class Widget(QWidget):
                         self.viewer.layers[
                             layer_name
                         ].visible = visibility_mat[i][j][k]
+
+    def set_auto_contrast(self):
+        # each block
+        for i in range(4):
+            # res
+            for j in range(2):
+                if self.image_loaded[i][j]:
+                    res = ""
+                    if j == 0:
+                        res = "5x"
+                    if j == 1:
+                        res = "20x"
+                    for k in range(4):
+                        layer_name = (
+                            "A"
+                            + str(i + 1)
+                            + "-"
+                            + res
+                            + "-"
+                            + self.channel_names[self.channel_list[k][i]]
+                        )
+                        data = self.viewer.layers[layer_name].data
+                        max_on_bound = max(
+                            max(data[0][:][:]),
+                            max(data[-1][:][:]),
+                            max(data[:][0][:]),
+                            max(data[:][-1][:]),
+                            max(data[:][:][0]),
+                            max(data[:][:][-1]),
+                        )
+                        original_contrast = self.viewer.layers[
+                            layer_name
+                        ].contrast
+                        self.viewer.layers[layer_name].contrast = (
+                            max_on_bound,
+                            original_contrast[1],
+                        )
