@@ -229,13 +229,21 @@ class Widget(QWidget):
                 # activate signals
                 self.block_check_boxes[i].blockSignals(False)
                 self.res_check_boxes[0].blockSignals(False)
-                for j in range(len(self.channel_check_boxes)):
+                for j in range(4):
                     # block signals
-                    self.channel_check_boxes[j].blockSignals(True)
-                    self.channel_check_boxes[j].setEnabled(True)
-                    self.channel_check_boxes[j].setChecked(True)
+                    self.channel_check_boxes[
+                        self.channel_list[j][i]
+                    ].blockSignals(True)
+                    self.channel_check_boxes[
+                        self.channel_list[j][i]
+                    ].setEnabled(True)
+                    self.channel_check_boxes[
+                        self.channel_list[j][i]
+                    ].setChecked(True)
                     # activate signals
-                    self.channel_check_boxes[j].blockSignals(False)
+                    self.channel_check_boxes[
+                        self.channel_list[j][i]
+                    ].blockSignals(False)
                 # apply affine
                 if self.line_file_path_5x_5x_list[i].text() != "":
                     affine_5x_5x = self.calculate_affine_from_file(
@@ -271,13 +279,21 @@ class Widget(QWidget):
                 # activate signals
                 self.block_check_boxes[i].blockSignals(False)
                 self.res_check_boxes[1].blockSignals(False)
-                for j in range(len(self.channel_check_boxes)):
+                for j in range(4):
                     # block signals
-                    self.channel_check_boxes[j].blockSignals(True)
-                    self.channel_check_boxes[j].setEnabled(True)
-                    self.channel_check_boxes[j].setChecked(True)
+                    self.channel_check_boxes[
+                        self.channel_list[j][i]
+                    ].blockSignals(True)
+                    self.channel_check_boxes[
+                        self.channel_list[j][i]
+                    ].setEnabled(True)
+                    self.channel_check_boxes[
+                        self.channel_list[j][i]
+                    ].setChecked(True)
                     # activate signals
-                    self.channel_check_boxes[j].blockSignals(False)
+                    self.channel_check_boxes[
+                        self.channel_list[j][i]
+                    ].blockSignals(False)
                 # apply affine
                 if self.line_file_path_5x_20x_list[i].text() != "":
                     affine_5x_20x = self.affine_xyz_to_zyx(
