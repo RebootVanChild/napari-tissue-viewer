@@ -27,11 +27,12 @@ if TYPE_CHECKING:
 
 class Widget(QWidget):
     channel_names = ["DAPI/CD31", "PanCK", "CD68", "CD3", "CD20", "CD4"]
+    channel_colors = ["blue", "green", "yellow", "yellow", "red", "red"]
     channel_list = [
-        [0, 0, 0, 0],
-        [1, 1, 1, 1],
-        [2, 2, 3, 3],
         [4, 5, 4, 5],
+        [2, 2, 3, 3],
+        [1, 1, 1, 1],
+        [0, 0, 0, 0],
     ]
     # [A1_5x, A1_20x], [A2_5x, A2_20x] ...
     image_loaded = [
@@ -246,30 +247,16 @@ class Widget(QWidget):
                     self.viewer.layers[-2].affine = affine_5x_5x
                     self.viewer.layers[-1].affine = affine_5x_5x
                 self.viewer.layers[-4].blending = "additive"
-                self.viewer.layers[-4].name = (
-                    "A"
-                    + str(i + 1)
-                    + "-5x-"
-                    + self.channel_names[self.channel_list[0][i]]
-                )
-                self.viewer.layers[-3].name = (
-                    "A"
-                    + str(i + 1)
-                    + "-5x-"
-                    + self.channel_names[self.channel_list[1][i]]
-                )
-                self.viewer.layers[-2].name = (
-                    "A"
-                    + str(i + 1)
-                    + "-5x-"
-                    + self.channel_names[self.channel_list[2][i]]
-                )
-                self.viewer.layers[-1].name = (
-                    "A"
-                    + str(i + 1)
-                    + "-5x-"
-                    + self.channel_names[self.channel_list[3][i]]
-                )
+                for j in range(4):
+                    self.viewer.layers[j - 4].color = self.channel_colors[
+                        self.channel_list[j][i]
+                    ]
+                    self.viewer.layers[j - 4].name = (
+                        "A"
+                        + str(i + 1)
+                        + "-5x-"
+                        + self.channel_names[self.channel_list[j][i]]
+                    )
             if self.line_file_path_20x_list[i].text() != "":
                 # block signals
                 self.block_check_boxes[i].blockSignals(True)
@@ -307,30 +294,16 @@ class Widget(QWidget):
                     self.viewer.layers[-2].affine = combined_matrix
                     self.viewer.layers[-1].affine = combined_matrix
                 self.viewer.layers[-4].blending = "additive"
-                self.viewer.layers[-4].name = (
-                    "A"
-                    + str(i + 1)
-                    + "-20x-"
-                    + self.channel_names[self.channel_list[0][i]]
-                )
-                self.viewer.layers[-3].name = (
-                    "A"
-                    + str(i + 1)
-                    + "-20x-"
-                    + self.channel_names[self.channel_list[1][i]]
-                )
-                self.viewer.layers[-2].name = (
-                    "A"
-                    + str(i + 1)
-                    + "-20x-"
-                    + self.channel_names[self.channel_list[2][i]]
-                )
-                self.viewer.layers[-1].name = (
-                    "A"
-                    + str(i + 1)
-                    + "-20x-"
-                    + self.channel_names[self.channel_list[3][i]]
-                )
+                for j in range(4):
+                    self.viewer.layers[j - 4].color = self.channel_colors[
+                        self.channel_list[j][i]
+                    ]
+                    self.viewer.layers[j - 4].name = (
+                        "A"
+                        + str(i + 1)
+                        + "-20x-"
+                        + self.channel_names[self.channel_list[j][i]]
+                    )
 
     def calculate_affine_from_file(self, file_path, layer):
         transform_parameters = np.loadtxt(
