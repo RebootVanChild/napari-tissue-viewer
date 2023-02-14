@@ -248,7 +248,7 @@ class Widget(QWidget):
                     self.viewer.layers[-1].affine = affine_5x_5x
                 self.viewer.layers[-4].blending = "additive"
                 for j in range(4):
-                    self.viewer.layers[j - 4].color = self.channel_colors[
+                    self.viewer.layers[j - 4].colormap = self.channel_colors[
                         self.channel_list[j][i]
                     ]
                     self.viewer.layers[j - 4].name = (
@@ -295,7 +295,7 @@ class Widget(QWidget):
                     self.viewer.layers[-1].affine = combined_matrix
                 self.viewer.layers[-4].blending = "additive"
                 for j in range(4):
-                    self.viewer.layers[j - 4].color = self.channel_colors[
+                    self.viewer.layers[j - 4].colormap = self.channel_colors[
                         self.channel_list[j][i]
                     ]
                     self.viewer.layers[j - 4].name = (
