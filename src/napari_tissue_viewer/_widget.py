@@ -188,7 +188,7 @@ class Widget(QWidget):
                 partial(self.select_file, i, "5x-20x")
             )
             for channel_idx in range(len(self.channel_list)):
-                tabs_seg_select.addTab(
+                tabs_seg_select[i].addTab(
                     self.tab_seg_list[i][channel_idx],
                     self.channel_names[self.channel_list[channel_idx][i]],
                 )
