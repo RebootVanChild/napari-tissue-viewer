@@ -195,7 +195,7 @@ class Widget(QWidget):
                 hbox_load_file_seg.addWidget(
                     self.btn_file_path_seg_list[i][channel_idx]
                 )
-                self.btn_file_path_5x_list[i].clicked.connect(
+                self.btn_file_path_seg_list[i][channel_idx].clicked.connect(
                     partial(self.select_seg_file, i, channel_idx)
                 )
                 tab_seg_layout.addRow(hbox_load_file_seg)
