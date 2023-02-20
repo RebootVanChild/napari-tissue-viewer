@@ -195,9 +195,9 @@ class Widget(QWidget):
                 hbox_load_file_seg.addWidget(
                     self.btn_file_path_seg_list[i][channel_idx]
                 )
-                # self.btn_file_path_5x_list[i].clicked.connect(
-                #     partial(self.select_file, i, "5x")
-                # )
+                self.btn_file_path_5x_list[i].clicked.connect(
+                    partial(self.select_seg_file, i, channel_idx)
+                )
                 tab_seg_layout.addRow(hbox_load_file_seg)
                 self.tab_seg_list[i][channel_idx].setLayout(tab_seg_layout)
                 tabs_seg_select[i].addTab(
@@ -290,6 +290,14 @@ class Widget(QWidget):
                 self, "Select 20x Registration", "", "CSV Files (*.csv)"
             )
             self.line_file_path_5x_20x_list[block_index].setText(fileName)
+
+    def select_seg_file(self, block_index, channel_index):
+        fileName, _ = QFileDialog.getOpenFileName(
+            self, "Select Segmentation", "", "TIFF Files (*.tif)"
+        )
+        self.line_file_path_seg_list[block_index][channel_index].setText(
+            fileName
+        )
 
     def load_file(self):
         # example: A1-5x-DAPI/CD31
