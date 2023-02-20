@@ -161,7 +161,7 @@ class Widget(QWidget):
             ],
         ]
         for i in range(len(self.tab_list)):
-            tabs_file_select.addTab(self.tab_list[i], "A" + str(i + 1))
+            # tabs_file_select.addTab(self.tab_list[i], "A" + str(i + 1))
             tab_layout = QFormLayout(self)
             hbox_load_file_5x = QHBoxLayout()
             hbox_load_file_5x.addWidget(self.line_file_path_5x_list[i])
@@ -209,8 +209,9 @@ class Widget(QWidget):
             tab_layout.addRow("20x", hbox_load_file_20x)
             tab_layout.addRow("5x registration", hbox_load_file_5x_5x)
             tab_layout.addRow("20x registration", hbox_load_file_5x_20x)
-            # tab_layout.addRow(tabs_seg_select[i])
+            tab_layout.addRow(tabs_seg_select[i])
             self.tab_list[i].setLayout(tab_layout)
+            tabs_file_select.addTab(self.tab_list[i], "A" + str(i + 1))
 
         # file load button
         self.btn_load_file = QPushButton("load", self)
