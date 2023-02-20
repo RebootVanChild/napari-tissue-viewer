@@ -209,7 +209,7 @@ class Widget(QWidget):
             tab_layout.addRow("20x", hbox_load_file_20x)
             tab_layout.addRow("5x registration", hbox_load_file_5x_5x)
             tab_layout.addRow("20x registration", hbox_load_file_5x_20x)
-            tab_layout.addRow(tabs_seg_select[i])
+            # tab_layout.addRow(tabs_seg_select[i])
             self.tab_list[i].setLayout(tab_layout)
 
         # file load button
