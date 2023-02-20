@@ -200,7 +200,7 @@ class Widget(QWidget):
                 #     partial(self.select_file, i, "5x")
                 # )
                 tab_seg_layout.addRow(hbox_load_file_seg)
-                self.tab_seg_list[i][channel_idx].setLayout(tab_seg_layout)
+                # self.tab_seg_list[i][channel_idx].setLayout(tab_seg_layout)
                 tabs_seg_select[i].addTab(
                     self.tab_seg_list[i][channel_idx],
                     self.channel_names[self.channel_list[channel_idx][i]],
