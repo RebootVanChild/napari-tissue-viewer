@@ -195,14 +195,18 @@ class Widget(QWidget):
                 hbox_load_file_seg.addWidget(
                     self.line_file_path_seg_list[i][channel_idx]
                 )
+                print("a")
                 hbox_load_file_seg.addWidget(
                     self.btn_file_path_seg_list[i][channel_idx]
                 )
                 # self.btn_file_path_5x_list[i].clicked.connect(
                 #     partial(self.select_file, i, "5x")
                 # )
+                print("b")
                 tab_seg_layout.addRow(hbox_load_file_seg)
+                print("c")
                 self.tab_seg_list[i][channel_idx].setLayout(tab_seg_layout)
+                print("d")
                 tabs_seg_select[i].addTab(
                     self.tab_seg_list[i][channel_idx],
                     self.channel_names[self.channel_list[channel_idx][i]],
