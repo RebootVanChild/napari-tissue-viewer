@@ -161,6 +161,7 @@ class Widget(QWidget):
             ],
         ]
         for i in range(len(self.tab_list)):
+            print("i", i)
             # tabs_file_select.addTab(self.tab_list[i], "A" + str(i + 1))
             tab_layout = QFormLayout(self)
             hbox_load_file_5x = QHBoxLayout()
@@ -188,6 +189,7 @@ class Widget(QWidget):
                 partial(self.select_file, i, "5x-20x")
             )
             for channel_idx in range(len(self.channel_list)):
+                print("channel_idx", channel_idx)
                 tab_seg_layout = QFormLayout(self)
                 hbox_load_file_seg = QHBoxLayout()
                 hbox_load_file_seg.addWidget(
@@ -200,11 +202,12 @@ class Widget(QWidget):
                 #     partial(self.select_file, i, "5x")
                 # )
                 tab_seg_layout.addRow(hbox_load_file_seg)
-                # self.tab_seg_list[i][channel_idx].setLayout(tab_seg_layout)
+                self.tab_seg_list[i][channel_idx].setLayout(tab_seg_layout)
                 tabs_seg_select[i].addTab(
                     self.tab_seg_list[i][channel_idx],
                     self.channel_names[self.channel_list[channel_idx][i]],
                 )
+                print("channel_idx_end")
             tab_layout.addRow("5x", hbox_load_file_5x)
             tab_layout.addRow("20x", hbox_load_file_20x)
             tab_layout.addRow("5x registration", hbox_load_file_5x_5x)
