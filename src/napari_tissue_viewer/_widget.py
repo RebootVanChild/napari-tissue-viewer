@@ -47,6 +47,19 @@ class Widget(QWidget):
         self.viewer = napari_viewer
         tabs_file_select = QTabWidget()
         self.tab_list = [QWidget(), QWidget(), QWidget(), QWidget()]
+        # segmentation tabs
+        tabs_seg_select = [
+            QTabWidget(),
+            QTabWidget(),
+            QTabWidget(),
+            QTabWidget(),
+        ]
+        self.tab_seg_list = [
+            [QWidget(), QWidget(), QWidget(), QWidget()],
+            [QWidget(), QWidget(), QWidget(), QWidget()],
+            [QWidget(), QWidget(), QWidget(), QWidget()],
+            [QWidget(), QWidget(), QWidget(), QWidget()],
+        ]
         self.line_file_path_5x_list = [
             QLineEdit(self),
             QLineEdit(self),
@@ -95,6 +108,58 @@ class Widget(QWidget):
             QPushButton("browse", self),
             QPushButton("browse", self),
         ]
+        self.line_file_path_seg_list = [
+            [
+                QLineEdit(self),
+                QLineEdit(self),
+                QLineEdit(self),
+                QLineEdit(self),
+            ],
+            [
+                QLineEdit(self),
+                QLineEdit(self),
+                QLineEdit(self),
+                QLineEdit(self),
+            ],
+            [
+                QLineEdit(self),
+                QLineEdit(self),
+                QLineEdit(self),
+                QLineEdit(self),
+            ],
+            [
+                QLineEdit(self),
+                QLineEdit(self),
+                QLineEdit(self),
+                QLineEdit(self),
+            ],
+        ]
+        self.btn_file_path_seg_list = [
+            [
+                QPushButton("browse", self),
+                QPushButton("browse", self),
+                QPushButton("browse", self),
+                QPushButton("browse", self),
+            ],
+            [
+                QPushButton("browse", self),
+                QPushButton("browse", self),
+                QPushButton("browse", self),
+                QPushButton("browse", self),
+            ],
+            [
+                QPushButton("browse", self),
+                QPushButton("browse", self),
+                QPushButton("browse", self),
+                QPushButton("browse", self),
+            ],
+            [
+                QPushButton("browse", self),
+                QPushButton("browse", self),
+                QPushButton("browse", self),
+                QPushButton("browse", self),
+            ],
+        ]
         for i in range(len(self.tab_list)):
             tabs_file_select.addTab(self.tab_list[i], "A" + str(i + 1))
             tab_layout = QFormLayout(self)
@@ -122,10 +187,29 @@ class Widget(QWidget):
             self.btn_file_path_5x_20x_list[i].clicked.connect(
                 partial(self.select_file, i, "5x-20x")
             )
+            for channel_idx in range(len(self.channel_list)):
+                tabs_seg_select.addTab(
+                    self.tab_seg_list[i][channel_idx],
+                    self.channel_names[self.channel_list[channel_idx][i]],
+                )
+                tab_seg_layout = QFormLayout(self)
+                hbox_load_file_seg = QHBoxLayout()
+                hbox_load_file_seg.addWidget(
+                    self.line_file_path_seg_list[i][channel_idx]
+                )
+                hbox_load_file_seg.addWidget(
+                    self.btn_file_path_seg_list[i][channel_idx]
+                )
+                # self.btn_file_path_5x_list[i].clicked.connect(
+                #     partial(self.select_file, i, "5x")
+                # )
+                tab_seg_layout.addRow(hbox_load_file_seg)
+                self.tab_seg_list[i][channel_idx].setLayout(tab_seg_layout)
             tab_layout.addRow("5x", hbox_load_file_5x)
             tab_layout.addRow("20x", hbox_load_file_20x)
             tab_layout.addRow("5x registration", hbox_load_file_5x_5x)
             tab_layout.addRow("20x registration", hbox_load_file_5x_20x)
+            tab_layout.addRow(tabs_seg_select[i])
             self.tab_list[i].setLayout(tab_layout)
 
         # file load button
