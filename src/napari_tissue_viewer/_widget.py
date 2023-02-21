@@ -430,7 +430,7 @@ class Widget(QWidget):
                             + str(i + 1)
                             + "-20x-"
                             + self.channel_names[self.channel_list[j][i]]
-                            + "segmentation"
+                            + "-segmentation"
                         )
                         # get the scale of the 20x image
                         scale = self.viewer.layers[
