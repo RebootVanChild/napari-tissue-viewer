@@ -412,7 +412,8 @@ class Widget(QWidget):
                         + self.channel_names[self.channel_list[j][i]]
                     )
                 # load segmentation file
-                for j in range(len(self.channel_list)):
+                print(i)
+                for j in range(4):
                     print(
                         str(i)
                         + str(j)
