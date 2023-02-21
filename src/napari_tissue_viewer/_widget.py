@@ -412,17 +412,25 @@ class Widget(QWidget):
                         + self.channel_names[self.channel_list[j][i]]
                     )
                 # load segmentation file
-                print(i)
-                for j in range(4):
-                    print(
-                        str(i)
-                        + str(j)
-                        + self.line_file_path_seg_list[i][j].text()
-                    )
+                for j in range(len(self.channel_list)):
                     if self.line_file_path_seg_list[i][j].text() != "":
                         self.viewer.open(
                             self.line_file_path_seg_list[i][j].text()
                         )
+                        self.viewer.layers[-1].name = (
+                            "A"
+                            + str(i + 1)
+                            + "-20x-"
+                            + self.channel_names[self.channel_list[j][i]]
+                            + "segmentation"
+                        )
+                        scale = self.viewer.layers[-1].extent[2]
+                        self.viewer.layers[-1].affine = [
+                            [scale[0], 0, 0, 0],
+                            [0, scale[1], 0, 0],
+                            [0, 0, scale[2], 0],
+                            [0, 0, 0, 1],
+                        ]
 
     def calculate_affine_from_file(self, file_path, layer):
         transform_parameters = np.loadtxt(
@@ -576,3 +584,14 @@ class Widget(QWidget):
                         max_on_bound,
                         original_contrast[1],
                     )
+
+    # def apply_segmentation_affine(self, block_index, chanel_index):
+    #     self.viewer.layers[-1].name = (
+    #             "A"
+    #             + str(i + 1)
+    #             + "-20x-"
+    #             + self.channel_names[self.channel_list[j][i]]
+    #             + "segmentation"
+    #     )
+    #     self.viewer.layers[-1].affine = [[1, 0, 0, 0],
+    #     [0, 1, 0, 0], [0, 0, 1, 0], [0, 0, 0, 1]]
