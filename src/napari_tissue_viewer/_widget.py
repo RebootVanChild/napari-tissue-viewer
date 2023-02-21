@@ -386,6 +386,14 @@ class Widget(QWidget):
                         self.channel_list[j][i]
                     ].blockSignals(False)
                 # apply affine
+                combined_matrix = np.array(
+                    [
+                        [1, 0, 0, 0],
+                        [0, 1, 0, 0],
+                        [0, 0, 1, 0],
+                        [0, 0, 0, 1],
+                    ]
+                )
                 if self.line_file_path_5x_20x_list[i].text() != "":
                     affine_5x_20x = self.affine_xyz_to_zyx(
                         np.loadtxt(
@@ -425,12 +433,14 @@ class Widget(QWidget):
                             + "segmentation"
                         )
                         scale = self.viewer.layers[-1].extent[2]
-                        self.viewer.layers[-1].affine = [
-                            [scale[0], 0, 0, 0],
-                            [0, scale[1], 0, 0],
-                            [0, 0, scale[2], 0],
-                            [0, 0, 0, 1],
-                        ]
+                        self.viewer.layers[-1].affine = np.array(
+                            [
+                                [scale[0], 0, 0, 0],
+                                [0, scale[1], 0, 0],
+                                [0, 0, scale[2], 0],
+                                [0, 0, 0, 1],
+                            ]
+                        ).dot(combined_matrix)
 
     def calculate_affine_from_file(self, file_path, layer):
         transform_parameters = np.loadtxt(
