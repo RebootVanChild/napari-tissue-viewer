@@ -428,6 +428,7 @@ class Widget(QWidget):
                         self.viewer.open(
                             self.line_file_path_seg_list[i][j].text()
                         )
+                        self.viewer.layers[-1].blending = "additive"
                         self.viewer.layers[-1].name = (
                             "A"
                             + str(i + 1)
@@ -590,16 +591,16 @@ class Widget(QWidget):
                         ].isChecked()
                     ):
                         visibility_mat[i][2][k] = True
-                        layer_name = (
-                            "A"
-                            + str(i + 1)
-                            + "-20x-"
-                            + self.channel_names[self.channel_list[k][i]]
-                            + "-Segmentation"
-                        )
-                        self.viewer.layers[
-                            layer_name
-                        ].visible = visibility_mat[i][2][k]
+                    layer_name = (
+                        "A"
+                        + str(i + 1)
+                        + "-20x-"
+                        + self.channel_names[self.channel_list[k][i]]
+                        + "-Segmentation"
+                    )
+                    self.viewer.layers[layer_name].visible = visibility_mat[i][
+                        2
+                    ][k]
 
     def set_auto_contrast(self):
         # each block
