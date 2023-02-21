@@ -433,7 +433,12 @@ class Widget(QWidget):
                             + "segmentation"
                         )
                         # get the scale of the 20x image
-                        scale = self.viewer.layers[-2].extent[2]
+                        scale = self.viewer.layers[
+                            "A"
+                            + str(i + 1)
+                            + "-20x-"
+                            + self.channel_names[self.channel_list[j][i]]
+                        ].extent[2]
                         self.viewer.layers[-1].affine = np.array(
                             [
                                 [scale[0], 0, 0, 0],
