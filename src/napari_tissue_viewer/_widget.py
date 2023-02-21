@@ -411,6 +411,12 @@ class Widget(QWidget):
                         + "-20x-"
                         + self.channel_names[self.channel_list[j][i]]
                     )
+                # load segmentation file
+                for j in range(len(self.channel_list)):
+                    if self.line_file_path_seg_list[i][j].text() != "":
+                        self.viewer.open(
+                            self.line_file_path_seg_list[i][j].text()
+                        )
 
     def calculate_affine_from_file(self, file_path, layer):
         transform_parameters = np.loadtxt(
