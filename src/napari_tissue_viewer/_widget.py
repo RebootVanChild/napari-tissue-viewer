@@ -34,12 +34,12 @@ class Widget(QWidget):
         [1, 1, 1, 1],
         [0, 0, 0, 0],
     ]
-    # [A1_5x, A1_20x], [A2_5x, A2_20x] ...
+    # [A1_5x, A1_20x, seg], [A2_5x, A2_20x, seg] ...
     image_loaded = [
-        [False, False],
-        [False, False],
-        [False, False],
-        [False, False],
+        [False, False, False],
+        [False, False, False],
+        [False, False, False],
+        [False, False, False],
     ]
 
     def __init__(self, napari_viewer):
@@ -233,6 +233,7 @@ class Widget(QWidget):
         self.res_check_boxes = [
             QCheckBox("5x"),
             QCheckBox("20x"),
+            QCheckBox("Segmentation"),
         ]
         hbox_res_visibility = QHBoxLayout()
         for i in range(len(self.res_check_boxes)):
@@ -432,27 +433,18 @@ class Widget(QWidget):
                             + str(i + 1)
                             + "-20x-"
                             + self.channel_names[self.channel_list[j][i]]
-                            + "-segmentation"
+                            + "-Segmentation"
                         )
-                        # get the scale of the 20x image
-                        # scale = self.viewer.layers[
-                        #     "A"
-                        #     + str(i + 1)
-                        #     + "-20x-"
-                        #     + self.channel_names[self.channel_list[j][i]]
-                        # ].extent[2]
                         self.viewer.layers[-1].scale = scale
                         self.viewer.layers[-1].affine = combined_matrix
-                        #     .dot(
-                        #     np.array(
-                        #         [
-                        #             [scale[0], 0, 0, 0],
-                        #             [0, scale[1], 0, 0],
-                        #             [0, 0, scale[2], 0],
-                        #             [0, 0, 0, 1],
-                        #         ]
-                        #     )
-                        # )
+                        # block signals
+                        self.res_check_boxes[2].blockSignals(True)
+                        self.image_loaded[i][2] = True
+                        # update checkboxes
+                        self.res_check_boxes[2].setEnabled(True)
+                        self.res_check_boxes[2].setChecked(True)
+                        # activate signals
+                        self.res_check_boxes[2].blockSignals(False)
 
     def calculate_affine_from_file(self, file_path, layer):
         transform_parameters = np.loadtxt(
@@ -536,15 +528,31 @@ class Widget(QWidget):
 
     def set_visibility(self):
         visibility_mat = [
-            [[False, False, False, False], [False, False, False, False]],
-            [[False, False, False, False], [False, False, False, False]],
-            [[False, False, False, False], [False, False, False, False]],
-            [[False, False, False, False], [False, False, False, False]],
+            [
+                [False, False, False, False],
+                [False, False, False, False],
+                [False, False, False, False],
+            ],
+            [
+                [False, False, False, False],
+                [False, False, False, False],
+                [False, False, False, False],
+            ],
+            [
+                [False, False, False, False],
+                [False, False, False, False],
+                [False, False, False, False],
+            ],
+            [
+                [False, False, False, False],
+                [False, False, False, False],
+                [False, False, False, False],
+            ],
         ]
         # each block
         for i in range(4):
             # res
-            for j in range(2):
+            for j in range(3):
                 if self.image_loaded[i][j]:
                     if self.block_check_boxes[i].isChecked():
                         if self.res_check_boxes[j].isChecked():
@@ -557,7 +565,7 @@ class Widget(QWidget):
                     res = ""
                     if j == 0:
                         res = "5x"
-                    if j == 1:
+                    if j == 1 or j == 2:
                         res = "20x"
                     for k in range(4):
                         layer_name = (
@@ -568,6 +576,8 @@ class Widget(QWidget):
                             + "-"
                             + self.channel_names[self.channel_list[k][i]]
                         )
+                        if j == 2:
+                            layer_name += "-Segmentation"
                         self.viewer.layers[
                             layer_name
                         ].visible = visibility_mat[i][j][k]
