@@ -439,16 +439,18 @@ class Widget(QWidget):
                             + "-20x-"
                             + self.channel_names[self.channel_list[j][i]]
                         ].extent[2]
-                        self.viewer.layers[-1].affine = combined_matrix.dot(
-                            np.array(
-                                [
-                                    [scale[0], 0, 0, 0],
-                                    [0, scale[1], 0, 0],
-                                    [0, 0, scale[2], 0],
-                                    [0, 0, 0, 1],
-                                ]
-                            )
-                        )
+                        self.viewer.layers[-1].scale = scale
+                        self.viewer.layers[-1].affine = combined_matrix
+                        #     .dot(
+                        #     np.array(
+                        #         [
+                        #             [scale[0], 0, 0, 0],
+                        #             [0, scale[1], 0, 0],
+                        #             [0, 0, scale[2], 0],
+                        #             [0, 0, 0, 1],
+                        #         ]
+                        #     )
+                        # )
 
     def calculate_affine_from_file(self, file_path, layer):
         transform_parameters = np.loadtxt(
