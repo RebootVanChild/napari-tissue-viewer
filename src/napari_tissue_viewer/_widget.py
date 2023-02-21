@@ -385,6 +385,8 @@ class Widget(QWidget):
                     self.channel_check_boxes[
                         self.channel_list[j][i]
                     ].blockSignals(False)
+                # record scale for segmentation
+                scale = self.viewer.layers[-1].extent[2]
                 # apply affine
                 combined_matrix = np.array(
                     [
@@ -433,12 +435,12 @@ class Widget(QWidget):
                             + "-segmentation"
                         )
                         # get the scale of the 20x image
-                        scale = self.viewer.layers[
-                            "A"
-                            + str(i + 1)
-                            + "-20x-"
-                            + self.channel_names[self.channel_list[j][i]]
-                        ].extent[2]
+                        # scale = self.viewer.layers[
+                        #     "A"
+                        #     + str(i + 1)
+                        #     + "-20x-"
+                        #     + self.channel_names[self.channel_list[j][i]]
+                        # ].extent[2]
                         self.viewer.layers[-1].scale = scale
                         self.viewer.layers[-1].affine = combined_matrix
                         #     .dot(
