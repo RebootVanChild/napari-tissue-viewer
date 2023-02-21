@@ -413,6 +413,11 @@ class Widget(QWidget):
                     )
                 # load segmentation file
                 for j in range(len(self.channel_list)):
+                    print(
+                        str(i)
+                        + str(j)
+                        + self.line_file_path_seg_list[i][j].text()
+                    )
                     if self.line_file_path_seg_list[i][j].text() != "":
                         self.viewer.open(
                             self.line_file_path_seg_list[i][j].text()
