@@ -439,7 +439,7 @@ class Widget(QWidget):
                         self.viewer.layers[-1].affine = combined_matrix
                         # block signals
                         self.res_check_boxes[2].blockSignals(True)
-                        self.image_loaded[i][2] = True
+                        self.image_loaded[i][2 + j] = True
                         # update checkboxes
                         self.res_check_boxes[2].setEnabled(True)
                         self.res_check_boxes[2].setChecked(True)
