@@ -36,10 +36,10 @@ class Widget(QWidget):
     ]
     # [A1_5x, A1_20x, seg], [A2_5x, A2_20x, seg] ...
     image_loaded = [
-        [False, False, False],
-        [False, False, False],
-        [False, False, False],
-        [False, False, False],
+        [False, False, False, False, False, False],
+        [False, False, False, False, False, False],
+        [False, False, False, False, False, False],
+        [False, False, False, False, False, False],
     ]
 
     def __init__(self, napari_viewer):
@@ -551,8 +551,8 @@ class Widget(QWidget):
         ]
         # each block
         for i in range(4):
-            # res
-            for j in range(3):
+            # res 5x 20x
+            for j in range(2):
                 if self.image_loaded[i][j]:
                     if self.block_check_boxes[i].isChecked():
                         if self.res_check_boxes[j].isChecked():
@@ -576,11 +576,30 @@ class Widget(QWidget):
                             + "-"
                             + self.channel_names[self.channel_list[k][i]]
                         )
-                        if j == 2:
-                            layer_name += "-Segmentation"
                         self.viewer.layers[
                             layer_name
                         ].visible = visibility_mat[i][j][k]
+            # segmentation
+            for k in range(4):
+                if self.image_loaded[i][2 + k]:
+                    if (
+                        self.block_check_boxes[i].isChecked()
+                        and self.res_check_boxes[2].isChecked()
+                        and self.channel_check_boxes[
+                            self.channel_list[k][i]
+                        ].isChecked()
+                    ):
+                        visibility_mat[i][2][k] = True
+                        layer_name = (
+                            "A"
+                            + str(i + 1)
+                            + "-20x-"
+                            + self.channel_names[self.channel_list[k][i]]
+                            + "-Segmentation"
+                        )
+                        self.viewer.layers[
+                            layer_name
+                        ].visible = visibility_mat[i][2][k]
 
     def set_auto_contrast(self):
         # each block
