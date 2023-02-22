@@ -14,6 +14,7 @@ from qtpy.QtWidgets import (
     QCheckBox,
     QFileDialog,
     QFormLayout,
+    QFrame,
     QHBoxLayout,
     QLineEdit,
     QPushButton,
@@ -271,6 +272,9 @@ class Widget(QWidget):
         layout.addRow(tabs_file_select)
         layout.addRow("segmentation alignment", hbox_segmentation_align)
         layout.addRow(self.btn_load_file)
+        separatorLine = QFrame()
+        separatorLine.setFrameShape(QFrame.HLine)
+        layout.addRow(separatorLine)
         layout.addRow(self.btn_auto_contrast)
         layout.addRow(hbox_block_visibility)
         layout.addRow(hbox_res_visibility)
