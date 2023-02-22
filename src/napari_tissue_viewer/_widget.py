@@ -461,15 +461,14 @@ class Widget(QWidget):
                         if self.segmentation_align_buttons[1].isChecked():
                             print(dim_pixel_z)
                             print(self.viewer.layers[-1].extent[0][1][0])
-                            self.viewer.layers[-1].tranlate = [
+                            self.viewer.layers[-1].translate = [
                                 dim_pixel_z
                                 - self.viewer.layers[-1].extent[0][1][0],
                                 0,
                                 0,
                             ]
                         self.viewer.layers[-1].scale = scale
-                        segmentation_matrix = combined_matrix
-                        self.viewer.layers[-1].affine = segmentation_matrix
+                        self.viewer.layers[-1].affine = combined_matrix
                         # block signals
                         self.res_check_boxes[2].blockSignals(True)
                         self.image_loaded[i][2 + j] = True
