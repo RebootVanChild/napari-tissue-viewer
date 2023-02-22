@@ -268,8 +268,8 @@ class Widget(QWidget):
             hbox_channel_visibility.addWidget(self.channel_check_boxes[i])
 
         layout = QFormLayout()
-        layout.addRow("segmentation alignment", tabs_file_select)
-        layout.addRow(hbox_segmentation_align)
+        layout.addRow(tabs_file_select)
+        layout.addRow("segmentation alignment", hbox_segmentation_align)
         layout.addRow(self.btn_load_file)
         layout.addRow(self.btn_auto_contrast)
         layout.addRow(hbox_block_visibility)
