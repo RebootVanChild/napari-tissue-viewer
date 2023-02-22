@@ -14,7 +14,6 @@ from qtpy.QtWidgets import (
     QCheckBox,
     QFileDialog,
     QFormLayout,
-    QFrame,
     QHBoxLayout,
     QLineEdit,
     QPushButton,
@@ -269,21 +268,16 @@ class Widget(QWidget):
             hbox_channel_visibility.addWidget(self.channel_check_boxes[i])
 
         layout = QFormLayout()
+        ctrl_layout = QFormLayout()
         layout.addRow(tabs_file_select)
         layout.addRow("segmentation alignment", hbox_segmentation_align)
         layout.addRow(self.btn_load_file)
-        separatorLine = QFrame()
-        separatorLine.setFrameShape(QFrame.HLine)
-        separatorLine.setFixedHeight(5)
-        layout.addRow(separatorLine)
-        layout.addRow(self.btn_auto_contrast)
-        layout.addRow(hbox_block_visibility)
-        layout.addRow(hbox_res_visibility)
-        layout.addRow(hbox_channel_visibility)
+        ctrl_layout.addRow(self.btn_auto_contrast)
+        ctrl_layout.addRow(hbox_block_visibility)
+        ctrl_layout.addRow(hbox_res_visibility)
+        ctrl_layout.addRow(hbox_channel_visibility)
+        layout.addRow(ctrl_layout)
         self.setLayout(layout)
-
-        # self.layout().addWidget(self.tabs_file_select)
-        # self.layout().addWidget(self.btn_load_file)
 
     # block_index: 0-3, file type: "5x", "20x", "5x-5x", "5x-20x"
     def select_file(self, block_index, file_type):
