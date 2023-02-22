@@ -19,6 +19,7 @@ from qtpy.QtWidgets import (
     QPushButton,
     QRadioButton,
     QTabWidget,
+    QVBoxLayout,
     QWidget,
 )
 
@@ -267,17 +268,19 @@ class Widget(QWidget):
             )
             hbox_channel_visibility.addWidget(self.channel_check_boxes[i])
 
-        layout = QFormLayout()
+        main_layout = QVBoxLayout()
+        import_layout = QFormLayout()
         ctrl_layout = QFormLayout()
-        layout.addRow(tabs_file_select)
-        layout.addRow("segmentation alignment", hbox_segmentation_align)
-        layout.addRow(self.btn_load_file)
+        import_layout.addRow(tabs_file_select)
+        import_layout.addRow("segmentation alignment", hbox_segmentation_align)
+        import_layout.addRow(self.btn_load_file)
         ctrl_layout.addRow(self.btn_auto_contrast)
         ctrl_layout.addRow(hbox_block_visibility)
         ctrl_layout.addRow(hbox_res_visibility)
         ctrl_layout.addRow(hbox_channel_visibility)
-        layout.addRow(ctrl_layout)
-        self.setLayout(layout)
+        main_layout.addWidget(import_layout)
+        main_layout.addWidget(ctrl_layout)
+        self.setLayout(main_layout)
 
     # block_index: 0-3, file type: "5x", "20x", "5x-5x", "5x-20x"
     def select_file(self, block_index, file_type):
