@@ -409,7 +409,7 @@ class Widget(QWidget):
                     ].blockSignals(False)
                 # record scale for segmentation
                 scale = self.viewer.layers[-1].extent[2]
-                dim_pixel_z = self.viewer.layers[-1].extent[1][0]
+                dim_pixel_z = self.viewer.layers[-1].extent[0][1][0]
                 # apply affine
                 combined_matrix = np.array(
                     [
@@ -462,7 +462,7 @@ class Widget(QWidget):
                         segmentation_matrix = combined_matrix
                         if self.segmentation_align_buttons[1].isChecked():
                             segmentation_matrix[0][3] = (
-                                self.viewer.layers[-1].extent[1][0]
+                                self.viewer.layers[-1].extent[0][1][0]
                                 - dim_pixel_z
                             )
                         self.viewer.layers[-1].affine = segmentation_matrix
