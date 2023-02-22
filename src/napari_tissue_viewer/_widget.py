@@ -458,13 +458,15 @@ class Widget(QWidget):
                             + self.channel_names[self.channel_list[j][i]]
                             + "-Segmentation"
                         )
+                        if self.segmentation_align_buttons[1].isChecked():
+                            self.viewer.layers[-1].tranlate = [
+                                dim_pixel_z
+                                - self.viewer.layers[-1].extent[0][1][0],
+                                0,
+                                0,
+                            ]
                         self.viewer.layers[-1].scale = scale
                         segmentation_matrix = combined_matrix
-                        if self.segmentation_align_buttons[1].isChecked():
-                            segmentation_matrix[0][3] = (
-                                self.viewer.layers[-1].extent[0][1][0]
-                                - dim_pixel_z
-                            )
                         self.viewer.layers[-1].affine = segmentation_matrix
                         # block signals
                         self.res_check_boxes[2].blockSignals(True)
