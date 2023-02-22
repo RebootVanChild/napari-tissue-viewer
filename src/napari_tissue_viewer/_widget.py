@@ -17,6 +17,7 @@ from qtpy.QtWidgets import (
     QHBoxLayout,
     QLineEdit,
     QPushButton,
+    QRadioButton,
     QTabWidget,
     QWidget,
 )
@@ -211,6 +212,15 @@ class Widget(QWidget):
             tab_layout.addRow(tabs_seg_select[i])
             self.tab_list[i].setLayout(tab_layout)
             tabs_file_select.addTab(self.tab_list[i], "A" + str(i + 1))
+        # segmentation_align_buttons
+        hbox_segmentation_align = QHBoxLayout()
+        self.segmentation_align_buttons = [
+            QRadioButton("top"),
+            QRadioButton("bottom"),
+        ]
+        hbox_segmentation_align.addWidget(self.segmentation_align_buttons[0])
+        hbox_segmentation_align.addWidget(self.segmentation_align_buttons[1])
+        self.segmentation_align_buttons[0].setChecked(True)
         # file load button
         self.btn_load_file = QPushButton("load", self)
         self.btn_load_file.clicked.connect(self.load_file)
@@ -259,6 +269,7 @@ class Widget(QWidget):
 
         layout = QFormLayout()
         layout.addRow(tabs_file_select)
+        layout.addRow(hbox_segmentation_align)
         layout.addRow(self.btn_load_file)
         layout.addRow(self.btn_auto_contrast)
         layout.addRow(hbox_block_visibility)
