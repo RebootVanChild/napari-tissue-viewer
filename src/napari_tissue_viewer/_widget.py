@@ -274,6 +274,7 @@ class Widget(QWidget):
         layout.addRow(self.btn_load_file)
         separatorLine = QFrame()
         separatorLine.setFrameShape(QFrame.HLine)
+        separatorLine.setFrameShadow(QFrame.Sunken)
         layout.addRow(separatorLine)
         layout.addRow(self.btn_auto_contrast)
         layout.addRow(hbox_block_visibility)
