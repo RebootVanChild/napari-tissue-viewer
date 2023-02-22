@@ -460,8 +460,11 @@ class Widget(QWidget):
                         )
                         if self.segmentation_align_buttons[1].isChecked():
                             self.viewer.layers[-1].translate = [
-                                dim_pixel_z
-                                - self.viewer.layers[-1].extent[0][1][0],
+                                (
+                                    dim_pixel_z
+                                    - self.viewer.layers[-1].extent[0][1][0]
+                                )
+                                * scale[0],
                                 0,
                                 0,
                             ]
