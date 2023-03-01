@@ -672,7 +672,7 @@ class Widget(QWidget):
             i += 1
         i += 2
         digit_start_index = i
-        while filename[i] != "_":
+        while filename[i] != "-":
             i += 1
         digit_end_index = i
         z_start_index = (
