@@ -1,11 +1,3 @@
-"""
-This module is an example of a barebones QWidget plugin for napari
-
-It implements the Widget specification.
-see: https://napari.org/stable/plugins/guides.html?#widgets
-
-Replace code below according to your needs.
-"""
 from functools import partial
 from typing import TYPE_CHECKING
 
@@ -18,7 +10,6 @@ from qtpy.QtWidgets import (
     QHBoxLayout,
     QLineEdit,
     QPushButton,
-    QRadioButton,
     QTabWidget,
     QVBoxLayout,
     QWidget,
@@ -26,6 +17,10 @@ from qtpy.QtWidgets import (
 
 if TYPE_CHECKING:
     pass
+
+# TODO: please specify the downsample scale of the 20x image.
+#  so that the segmented image can be aligned according to its filename.
+downsampled_scale_20x = 0.25
 
 
 class Widget(QWidget):
@@ -214,15 +209,6 @@ class Widget(QWidget):
             tab_layout.addRow(tabs_seg_select[i])
             self.tab_list[i].setLayout(tab_layout)
             tabs_file_select.addTab(self.tab_list[i], "A" + str(i + 1))
-        # segmentation_align_buttons
-        hbox_segmentation_align = QHBoxLayout()
-        self.segmentation_align_buttons = [
-            QRadioButton("top"),
-            QRadioButton("bottom"),
-        ]
-        hbox_segmentation_align.addWidget(self.segmentation_align_buttons[0])
-        hbox_segmentation_align.addWidget(self.segmentation_align_buttons[1])
-        self.segmentation_align_buttons[0].setChecked(True)
         # file load button
         self.btn_load_file = QPushButton("load", self)
         self.btn_load_file.clicked.connect(self.load_file)
@@ -274,7 +260,6 @@ class Widget(QWidget):
         import_group_box = QGroupBox()
         import_layout = QFormLayout()
         import_layout.addRow(tabs_file_select)
-        import_layout.addRow("segmentation alignment", hbox_segmentation_align)
         import_layout.addRow(self.btn_load_file)
         import_group_box.setLayout(import_layout)
         # box for ctrls
@@ -409,7 +394,6 @@ class Widget(QWidget):
                     ].blockSignals(False)
                 # record scale for segmentation
                 scale = self.viewer.layers[-1].extent[2]
-                dim_pixel_z = self.viewer.layers[-1].extent[0][1][0]
                 # apply affine
                 combined_matrix = np.array(
                     [
@@ -446,7 +430,8 @@ class Widget(QWidget):
                     )
                 # load segmentation file
                 for j in range(len(self.channel_list)):
-                    if self.line_file_path_seg_list[i][j].text() != "":
+                    seg_file_name = self.line_file_path_seg_list[i][j].text()
+                    if seg_file_name != "":
                         self.viewer.open(
                             self.line_file_path_seg_list[i][j].text()
                         )
@@ -458,16 +443,26 @@ class Widget(QWidget):
                             + self.channel_names[self.channel_list[j][i]]
                             + "-Segmentation"
                         )
-                        if self.segmentation_align_buttons[1].isChecked():
-                            self.viewer.layers[-1].translate = [
-                                (
-                                    dim_pixel_z
-                                    - self.viewer.layers[-1].extent[0][1][0]
-                                )
-                                * scale[0],
-                                0,
-                                0,
-                            ]
+                        z_start_index = (
+                            self.get_z_start_index_from_seg_file_name(
+                                seg_file_name, downsampled_scale_20x
+                            )
+                        )
+                        self.viewer.layers[-1].translate = [
+                            z_start_index * scale[0],
+                            0,
+                            0,
+                        ]
+                        # if self.segmentation_align_buttons[1].isChecked():
+                        #     self.viewer.layers[-1].translate = [
+                        #         (
+                        #             dim_pixel_z
+                        #             - self.viewer.layers[-1].extent[0][1][0]
+                        #         )
+                        #         * scale[0],
+                        #         0,
+                        #         0,
+                        #     ]
                         self.viewer.layers[-1].scale = scale
                         self.viewer.layers[-1].affine = combined_matrix
                         # block signals
@@ -668,6 +663,22 @@ class Widget(QWidget):
                         max_on_bound,
                         original_contrast[1],
                     )
+
+    def get_z_start_index_from_seg_file_name(self, filename, scale_20x):
+        i = 0
+        while True:
+            if filename[i] == "Z" and filename[i + 1] == "_":
+                break
+            i += 1
+        i += 2
+        digit_start_index = i
+        while filename[i] != "_":
+            i += 1
+        digit_end_index = i
+        z_start_index = (
+            float(filename[digit_start_index:digit_end_index]) * scale_20x
+        )
+        return z_start_index
 
     # def apply_segmentation_affine(self, block_index, chanel_index):
     #     self.viewer.layers[-1].name = (
