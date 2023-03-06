@@ -18,10 +18,6 @@ from qtpy.QtWidgets import (
 if TYPE_CHECKING:
     pass
 
-# TODO: please specify the downsample scale of the 20x image.
-#  so that the segmented image can be aligned according to its filename.
-downsampled_scale_20x = 0.25
-
 
 class Widget(QWidget):
     channel_names = ["DAPI/CD31", "PanCK", "CD68", "CD3", "CD20", "CD4"]
@@ -209,6 +205,8 @@ class Widget(QWidget):
             tab_layout.addRow(tabs_seg_select[i])
             self.tab_list[i].setLayout(tab_layout)
             tabs_file_select.addTab(self.tab_list[i], "A" + str(i + 1))
+        self.line_scale_factor = QLineEdit(self)
+        self.line_scale_factor.setText("1")
         # file load button
         self.btn_load_file = QPushButton("load", self)
         self.btn_load_file.clicked.connect(self.load_file)
@@ -254,12 +252,14 @@ class Widget(QWidget):
                 self.set_visibility
             )
             hbox_channel_visibility.addWidget(self.channel_check_boxes[i])
-
         main_layout = QVBoxLayout()
         # box for import files
         import_group_box = QGroupBox()
         import_layout = QFormLayout()
         import_layout.addRow(tabs_file_select)
+        import_layout.addRow(
+            "image downsampled? scale factor = ", self.line_scale_factor
+        )
         import_layout.addRow(self.btn_load_file)
         import_group_box.setLayout(import_layout)
         # box for ctrls
@@ -432,6 +432,9 @@ class Widget(QWidget):
                 for j in range(len(self.channel_list)):
                     seg_file_name = self.line_file_path_seg_list[i][j].text()
                     if seg_file_name != "":
+                        downsampled_scale = float(
+                            self.line_scale_factor.text()
+                        )
                         self.viewer.open(
                             self.line_file_path_seg_list[i][j].text()
                         )
@@ -445,7 +448,7 @@ class Widget(QWidget):
                         )
                         z_start_index = (
                             self.get_z_start_index_from_seg_file_name(
-                                seg_file_name, downsampled_scale_20x
+                                seg_file_name, downsampled_scale
                             )
                         )
                         self.viewer.layers[-1].translate = [
