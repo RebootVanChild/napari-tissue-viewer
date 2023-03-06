@@ -33,6 +33,23 @@ To install latest development version :
 
     pip install git+https://github.com/RebootVanChild/napari-tissue-viewer.git
 
+## Usage
+
+1. Load images:<br>
+First, select files to load:<br>
+For each tissue block:
+* 5x image file path
+* 20x image file path
+* 5x registration file path
+* 20x registration file path
+* segmented 20x channel file path<br><br>
+You don't have to fill all of them.<br>
+If the images and the segmented channel are downsampled, please specify the scale factor.<br>
+After file selection, press "load" to load.
+2. Visualization controls:<br>
+Press "auto contrast" to perform auto contrast on 5x images.<br>
+Use the checkboxes to toggle visibilities of tissue blocks, layers and channels.
+
 
 ## Contributing
 
