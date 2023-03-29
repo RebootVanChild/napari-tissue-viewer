@@ -21,7 +21,7 @@ if TYPE_CHECKING:
 
 class Widget(QWidget):
     channel_names = ["DAPI/CD31", "PanCK", "CD68", "CD3", "CD20", "CD4"]
-    channel_colors = ["blue", "green", "yellow", "yellow", "red", "red"]
+    channel_colors = ["blue", "green", "red", "red", "yellow", "yellow"]
     channel_list = [
         [4, 5, 4, 5],
         [2, 2, 3, 3],
