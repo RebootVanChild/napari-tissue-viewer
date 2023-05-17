@@ -154,6 +154,7 @@ class Widget(QWidget):
                 QPushButton("browse", self),
             ],
         ]
+        # load layout
         for i in range(len(self.tab_list)):
             tab_layout = QFormLayout(self)
             hbox_load_file_5x = QHBoxLayout()
