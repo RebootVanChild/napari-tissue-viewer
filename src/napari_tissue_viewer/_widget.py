@@ -318,7 +318,8 @@ class Widget(QWidget):
                 # block signals
                 self.block_check_boxes[i].blockSignals(True)
                 self.res_check_boxes[0].blockSignals(True)
-                self.viewer.open(self.line_file_path_5x_list[i].text())
+                self.viewer.open(
+                    self.line_file_path_5x_list[i].text(), plugin='napari-aicsimageio')
                 self.image_loaded[i][0] = True
                 # update checkboxes and visibilities
                 self.block_check_boxes[i].setEnabled(True)
@@ -368,7 +369,8 @@ class Widget(QWidget):
                 # block signals
                 self.block_check_boxes[i].blockSignals(True)
                 self.res_check_boxes[1].blockSignals(True)
-                self.viewer.open(self.line_file_path_20x_list[i].text())
+                self.viewer.open(
+                    self.line_file_path_20x_list[i].text(), plugin='napari-aicsimageio')
                 self.image_loaded[i][1] = True
                 # update checkboxes
                 self.block_check_boxes[i].setEnabled(True)
